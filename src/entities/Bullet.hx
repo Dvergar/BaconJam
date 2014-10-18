@@ -1,4 +1,5 @@
 package entities;
+import components.BoxCollider;
 import luxe.Quaternion;
 import luxe.Sprite;
 import luxe.Vector;
@@ -13,6 +14,9 @@ class Bullet extends Sprite
 	var direction:Vector;
 
 	public var speed:Float = 400;
+	
+	public var collider:BoxCollider;
+	
     public function new(x:Float, y:Float,direction:Vector)
     {
         this.direction = direction.normalized;
@@ -24,7 +28,9 @@ class Bullet extends Sprite
             pos : new Vector(x, y),
         });
 		
-		this.rotation.setFromAxisAngle(new Vector(0, 0, 1), Math.atan2(direction.y, direction.x) -0.1 + Math.random()*0.2);
+		this.rotation.setFromAxisAngle(new Vector(0, 0, 1), Math.atan2(direction.y, direction.x) -0.1 + Math.random() * 0.2);
+		collider = new BoxCollider(10, 10, false);
+		add(collider);
 	}
 	
 	override public function update(dt:Float) 
@@ -33,6 +39,11 @@ class Bullet extends Sprite
 		var direction = new Vector(1, 0, 0).applyQuaternion(rotation);
 		pos.x += direction.x * speed * dt;
 		pos.y += direction.y * speed * dt;
+		
+		if (collider.collides)
+		{
+			destroy();
+		}
 	}
 	
 }

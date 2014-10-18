@@ -1,4 +1,7 @@
 
+import luxe.collision.ShapeDrawerLuxe;
+import luxe.collision.shapes.Polygon;
+import luxe.collision.shapes.Shape;
 import luxe.Vector;
 import luxe.Input;
 import luxe.Text;
@@ -12,6 +15,7 @@ import phoenix.geometry.QuadGeometry;
 
 class Main extends luxe.Game
 {
+	public var shapes:Array<Shape> = new Array();
     var player:Player;
     var box:QuadGeometry;
 	public var input:Vector;
@@ -21,6 +25,11 @@ class Main extends luxe.Game
     {
 		input = new Vector();
 		player = new Player(Luxe.screen.mid.x, Luxe.screen.mid.y);
+		
+		shapes.push(Polygon.rectangle(0, 0, Luxe.screen.w, 20, false));
+		shapes.push(Polygon.rectangle(0, Luxe.screen.h-20, Luxe.screen.w, 20, false));
+		shapes.push(Polygon.rectangle(0, 0, 20, Luxe.screen.h, false));
+		shapes.push(Polygon.rectangle(Luxe.screen.w-20, 0, 20, Luxe.screen.h, false));
     }
 
     override function onmousemove(e:MouseEvent)
@@ -95,5 +104,14 @@ class Main extends luxe.Game
 			pos: new Vector(0,Luxe.screen.h-30),
 			text: Math.round( 1/Luxe.debug.dt_average) +" | "+ (Luxe.debug.dt_average+"").substr(0,6),
 		});
+		
+		
+		#if debug
+		for (shape in shapes)
+		{
+			new ShapeDrawerLuxe().drawShape(shape);
+		}
+		#end
+		
     }
 }
