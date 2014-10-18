@@ -74,13 +74,13 @@ class Main extends luxe.Game
 
     override function onkeyup(e:KeyEvent)
     {
-        if(e.keycode == Key.key_z)
+        if(e.keycode == Key.key_w)
             upPressed = false;
 
         if(e.keycode == Key.key_s)
             downPressed = false;
 
-        if(e.keycode == Key.key_q)
+        if(e.keycode == Key.key_a)
             leftPressed = false;
 
         if(e.keycode == Key.key_d)
@@ -90,13 +90,13 @@ class Main extends luxe.Game
 
     override function onkeydown(e:KeyEvent)
     {
-        if(e.keycode == Key.key_z)
+        if(e.keycode == Key.key_w)
             upPressed = true;
 
         if(e.keycode == Key.key_s)
             downPressed = true;
 
-        if(e.keycode == Key.key_q)
+        if(e.keycode == Key.key_a)
             leftPressed = true;
 
         if(e.keycode == Key.key_d)
