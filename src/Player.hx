@@ -28,7 +28,7 @@ class Player extends Sprite
         Luxe.events.listen('update', update);
 		
 		fireComponent = new ShootComponent();
-		fireComponent.fireRate = 5;
+		fireComponent.fireRate = 30;
 		add(fireComponent);
     }
 	
