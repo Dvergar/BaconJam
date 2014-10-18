@@ -37,7 +37,6 @@ class Bullet extends Sprite
 	override public function init() 
 	{
 		super.init();
-		trace(collider.shape);
 		LuxeApp._game.bulletShapes.push(collider.shape);
 	}
 		
