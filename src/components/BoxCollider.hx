@@ -37,7 +37,7 @@ class BoxCollider extends Component
 		this.centered = centered;
 		this.height = height;
 		this.width = width;
-		collisionBox = new Rectangle(0, 0, 64, 64);
+		collisionBox = new Rectangle(0, 0, width, height);
 	}
 	
 	override public function init() 

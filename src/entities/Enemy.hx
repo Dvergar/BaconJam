@@ -15,10 +15,9 @@ import phoenix.Texture.FilterType;
  */
 class Enemy extends Sprite
 {
-
 	var collider:Rectangle;
 	var health:Int = 10;
-	
+
 	public function new(x:Float, y:Float)
 	{
 		var texture = Luxe.loadTexture('assets/enemy.png');

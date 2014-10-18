@@ -35,7 +35,7 @@ class Player extends Sprite
 		fireComponent.fireRate = 30;
 		add(fireComponent);
 		
-		add(new BoxCollider(60, 75, true));
+		add(new BoxCollider(50, 50, true));
 		get("BoxCollider").render = true;
     }
 	
