@@ -31,7 +31,9 @@ class BaconMap  // Damn it, can't call it Map or Tilemap
         TILES_HIGH = map.tileshigh;
         TILES_WIDE = map.tileswide;
 
-        tiles = parseMap({data:map, skip: ["char", "shadows"]});
+        tiles = parseMap({data:map, skip: ["char"]});
+        tiles.layers.get("shadows").opacity = 0.1;
+        tiles.display({});
         collisionMap = getCollisionMapFrom(map, "collisionmap");
     }
 
@@ -60,15 +62,13 @@ class BaconMap  // Damn it, can't call it Map or Tilemap
         {
             if(Lambda.has(args.skip, layer.name)) continue;
 
-            demTiles.add_layer({name: layer.name, layer: Std.int(layer.number * -1), opacity: 1, visible: true});
+            demTiles.add_layer({name: layer.name, layer: Std.int(layer.number * -1)});
             demTiles.add_tiles_fill_by_id(layer.name, 0);  // Gnn
 
             var tiles:Array<Dynamic> = layer.tiles;
             for(tile in tiles)
                 demTiles.tile_at(layer.name, tile.x, tile.y).id = tile.tile + 1;
         }
-
-        demTiles.display({scale:1});
         return demTiles;
     }
 
