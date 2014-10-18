@@ -24,6 +24,7 @@ class Player extends Sprite
         super({
             texture : texture,
             pos : new Vector(x, y),
+			name: "player"
         });
 
         Luxe.events.listen('update', update);

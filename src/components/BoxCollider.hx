@@ -22,7 +22,7 @@ class BoxCollider extends Component
 	var width:Float;
 	var height:Float;
 	var sprite:Sprite;
-	var shape:Shape;
+	public var shape:Shape;
 	var centered:Bool;
 	public var render:Bool = false;
 	public var collides:Bool;
@@ -36,13 +36,15 @@ class BoxCollider extends Component
 		this.centered = centered;
 		this.height = height;
 		this.width = width;
+		shape = Polygon.rectangle(0,0,width, height,false);
 	}
 	
 	override public function init() 
 	{
 		super.init();
 		sprite = cast entity;
-		shape = Polygon.rectangle(sprite.pos.x,sprite.pos.y,width, height,false);
+		shape.x = sprite.pos.x + (centered ? -width/2 : 0);
+		shape.y = sprite.pos.y + (centered ? -width / 2 : 0);
 	}
 	
 	override public function update(dt:Float) 
@@ -50,7 +52,7 @@ class BoxCollider extends Component
 		collides = collideWith(LuxeApp._game.shapes);
 
 		super.update(dt);
-		shape.x = sprite.pos.x + (centered ? -width/2 : 0);
+		shape.x = sprite.pos.x + (centered ? -width / 2 : 0);
 		shape.y = sprite.pos.y + (centered ? -width / 2 : 0);
 		if (render)
 		{

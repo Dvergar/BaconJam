@@ -33,6 +33,13 @@ class Bullet extends Sprite
 		add(collider);
 	}
 	
+	override public function init() 
+	{
+		super.init();
+		trace(collider.shape);
+		LuxeApp._game.bulletShapes.push(collider.shape);
+	}
+		
 	override public function update(dt:Float) 
 	{
 		super.update(dt);

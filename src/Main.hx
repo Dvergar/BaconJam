@@ -1,4 +1,5 @@
 
+import entities.Enemy;
 import luxe.collision.ShapeDrawerLuxe;
 import luxe.collision.shapes.Polygon;
 import luxe.collision.shapes.Shape;
@@ -16,7 +17,9 @@ import phoenix.geometry.QuadGeometry;
 class Main extends luxe.Game
 {
 	public var shapes:Array<Shape> = new Array();
-    var player:Player;
+	public var enemyShapes:Array<Shape> = new Array();
+	public var bulletShapes:Array<Shape> = new Array();
+    public var player:Player;
     var box:QuadGeometry;
 	public var input:Vector;
 	public var mousePos:Vector = new Vector(0,0);
@@ -29,7 +32,9 @@ class Main extends luxe.Game
 		shapes.push(Polygon.rectangle(0, 0, Luxe.screen.w, 20, false));
 		shapes.push(Polygon.rectangle(0, Luxe.screen.h-20, Luxe.screen.w, 20, false));
 		shapes.push(Polygon.rectangle(0, 0, 20, Luxe.screen.h, false));
-		shapes.push(Polygon.rectangle(Luxe.screen.w-20, 0, 20, Luxe.screen.h, false));
+		shapes.push(Polygon.rectangle(Luxe.screen.w - 20, 0, 20, Luxe.screen.h, false));
+		
+		new Enemy(100, 100);
     }
 
     override function onmousemove(e:MouseEvent)
