@@ -6,6 +6,8 @@ import luxe.Color;
 import luxe.Rectangle;
 import luxe.Sprite;
 import phoenix.Texture.FilterType;
+import phoenix.geometry.LineGeometry;
+import phoenix.geometry.RectangleGeometry;
 
 
 class Player
@@ -47,10 +49,22 @@ class Player
 class Main extends luxe.Game
 {
     var player:Player;
+    var line:LineGeometry;
 
     override function ready()
     {
         player = new Player(Luxe.screen.mid.x, Luxe.screen.mid.y);
+        line = Luxe.draw.line({
+            p0: new Vector(0, Luxe.screen.h/2),
+            p1: new Vector(Luxe.screen.w, Luxe.screen.h/2),
+            color: new Color().rgb(0x737178),
+        });
+    }
+
+    override function onmousemove(e:MouseEvent)
+    {
+        line.p0 = new Vector(player.sprite.pos.x, player.sprite.pos.y);
+        line.p1 = new Vector(e.pos.x, e.pos.y);
     }
 
     var upPressed = false;
@@ -88,8 +102,6 @@ class Main extends luxe.Game
         if(e.keycode == Key.key_d)
             rightPressed = true;
     }
-
-    
 
     override function update(dt:Float)
     {
