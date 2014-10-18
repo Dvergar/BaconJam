@@ -1,0 +1,25 @@
+{
+
+  project : {
+    name : 'BaconJam',
+    version : '0.0.1',
+    author : 'The reddit haxe team',
+
+    app : {
+      name : 'BaconJam',
+
+    },
+
+    build : {
+      dependencies : {
+        luxe : '*',
+      }
+    },
+
+    files : {
+      assets : 'assets/'
+    }
+
+  }
+
+}
