@@ -24,8 +24,15 @@ class Player
             texture : texture,
             pos : new Vector(x, y),
         });
+
+        Luxe.events.listen('update', update);
     }
 	
+    function update(dt:Float)
+    {
+
+    }
+
 	public function move(input:Vector,dt:Float) 
 	{
 		sprite.pos.add(input.multiplyScalar( SPEED * dt));
@@ -102,9 +109,11 @@ class Main extends luxe.Game
 		updateInput();
 		player.move(input,dt);
 
-
         // LINE OF SIGHT MOVE - TARGET
         line.p0 = new Vector(player.sprite.pos.x, player.sprite.pos.y);
+
+        // UPDATE EVENT DISPATCH
+        Luxe.events.fire('update', dt);
     }
 	
 	
