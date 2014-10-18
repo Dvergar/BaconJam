@@ -5,9 +5,105 @@ import luxe.Text;
 import luxe.Color;
 import luxe.Rectangle;
 import luxe.Sprite;
+import luxe.tilemaps.Tilemap;
+import luxe.importers.tiled.TiledMap;
 import luxe.Quaternion;
 import phoenix.Texture.FilterType;
 import phoenix.geometry.QuadGeometry;
+
+
+
+class BaconMap  // Damn it, can't call it Map or Tilemap
+{
+    static inline var GROUND = 1;
+    static inline var BLOCK = 2;
+    static inline var BLOCK_BOTTOM = 3;
+    static inline var SHADOW = 4;
+    static inline var TILESIZE = 64;
+    var TILES_HIGH:Int;
+    var TILES_WIDE:Int;
+    var tiles:Tilemap;
+    var collisionMap:Array<Array<Bool>>;
+
+    public function new()
+    {
+        // IMPORT PYXELEDIT MAP
+        var map = haxe.Json.parse(haxe.Resource.getString("map"));
+        TILES_HIGH = map.tileshigh;
+        TILES_WIDE = map.tileswide;
+
+        tiles = parseMap({data:map, skip: ["char", "shadows"]});
+        collisionMap = getCollisionMapFrom(map, "collisionmap");
+        trace("collisionMap" + collisionMap);
+    }
+
+    function parseMap(args:{data:Dynamic, skip:Array<String>})
+    {
+        // LUXE TILEMAP
+        var demTiles = new Tilemap({
+            x           : 0,
+            y           : 0,
+            w           : TILES_WIDE,
+            h           : TILES_HIGH,
+            tile_width  : TILESIZE,
+            tile_height : TILESIZE,
+            orientation : TilemapOrientation.ortho,
+        });
+
+        demTiles.add_tileset({
+            name: "yay",
+            texture: Luxe.loadTexture('assets/tileset.png'),
+            tile_width: TILESIZE, tile_height: TILESIZE,
+        });
+
+        // PYXEL EDIT MAP PARSING
+        var layers:Array<Dynamic> = args.data.layers;
+        for(layer in layers)
+        {
+            if(Lambda.has(args.skip, layer.name)) continue;
+
+            demTiles.add_layer({name: layer.name, layer: Std.int(layer.number * -1), opacity: 1, visible: true});
+            demTiles.add_tiles_fill_by_id(layer.name, 0);  // Gnn
+
+            var tiles:Array<Dynamic> = layer.tiles;
+            for(tile in tiles)
+                demTiles.tile_at(layer.name, tile.x, tile.y).id = tile.tile + 1;
+        }
+
+        demTiles.display({scale:1});
+        return demTiles;
+    }
+
+    function getCollisionMapFrom(map:Dynamic, layerName:String)
+    {
+        // DEFAULT THE COLLISIONMAP
+        var collisionMap = new Array();
+        for(posx in 0...TILES_WIDE)
+        {
+            var col = new Array();
+            for(posy in 0...TILES_HIGH)
+                col.push(false);
+
+            collisionMap.push(col);
+        }
+
+        // APPLY REAL DATA
+        var layers:Array<Dynamic> = map.layers;
+        for(layer in layers)
+        {
+            if(layer.name == layerName)
+            {
+                var tiles:Array<Dynamic> = layer.tiles;
+                for(tile in tiles)
+                    if(tile.tile != -1) 
+                        collisionMap[tile.x][tile.y] = true;
+                break;
+            }
+        }
+
+        return collisionMap;
+    }
+}
 
 
 class Main extends luxe.Game
@@ -21,6 +117,7 @@ class Main extends luxe.Game
     {
 		input = new Vector();
 		player = new Player(Luxe.screen.mid.x, Luxe.screen.mid.y);
+        new BaconMap();
     }
 
     override function onmousemove(e:MouseEvent)
@@ -87,6 +184,7 @@ class Main extends luxe.Game
             rotation: new Quaternion().setFromEuler(
                             new Vector(0,0,angle).radians()),
             color: new Color(1, 1, 1, 0.2).rgb(0x737178),
+            depth: 1,
         });
 		
 		//display FPS
