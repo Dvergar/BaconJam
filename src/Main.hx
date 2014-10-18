@@ -10,39 +10,12 @@ import phoenix.geometry.LineGeometry;
 import phoenix.geometry.RectangleGeometry;
 
 
-class Player extends Sprite
-{
-    static inline var SPEED:Int = 350;
-
-    public function new(x:Float, y:Float)
-    {
-        var texture = Luxe.loadTexture('assets/player.png');
-        texture.filter = FilterType.nearest;
-
-        super({
-            texture : texture,
-            pos : new Vector(x, y),
-        });
-		
-    }
-	
-	public function move(input:Vector,dt:Float) 
-	{
-		pos.add(input.multiplyScalar( SPEED * dt));
-		if (input.x < 0)
-			flipx = true;
-		if (input.x > 0)
-			flipx = false;
-	}
-	
-}
-
 
 class Main extends luxe.Game
 {
     var player:Player;
     var line:LineGeometry;
-	var input:Vector;
+	public var input:Vector;
 	public var mousePos:Vector;
 
     override function ready()
@@ -103,11 +76,13 @@ class Main extends luxe.Game
     {
 
 		updateInput();
-		player.move(input,dt);
-
 
         // LINE OF SIGHT MOVE - TARGET
         line.p0 = new Vector(player.pos.x, player.pos.y);
+
+
+        // UPDATE EVENT DISPATCH
+        //Luxe.events.fire('update', dt);
     }
 	
 	
