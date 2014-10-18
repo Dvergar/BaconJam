@@ -10,10 +10,11 @@ import phoenix.Texture.FilterType;
 
 class Player
 {
-	public var sprite:Sprite;
+    static inline var SPEED:Int = 350;
+    public var sprite:Sprite;
 
-	public function new(x:Float, y:Float)
-	{
+    public function new(x:Float, y:Float)
+    {
         var texture = Luxe.loadTexture('assets/player.png');
         texture.filter = FilterType.nearest;
 
@@ -21,17 +22,35 @@ class Player
             texture : texture,
             pos : new Vector(x, y),
         });
-	}
+    }
+
+    public function moveUp(dt:Float)
+        sprite.pos.y -= SPEED * dt;
+
+    public function moveDown(dt:Float)
+        sprite.pos.y += SPEED * dt;
+
+    public function moveLeft(dt:Float)
+    {
+        sprite.pos.x -= SPEED * dt;
+        sprite.flipx = true;
+    }
+
+    public function moveRight(dt:Float)
+    {
+        sprite.pos.x += SPEED * dt;
+        sprite.flipx = false;
+    }
 }
 
 
 class Main extends luxe.Game
 {
-	var player:Player;
+    var player:Player;
 
     override function ready()
     {
-    	player = new Player(Luxe.screen.mid.x, Luxe.screen.mid.y);
+        player = new Player(Luxe.screen.mid.x, Luxe.screen.mid.y);
     }
 
     var upPressed = false;
@@ -70,13 +89,13 @@ class Main extends luxe.Game
             rightPressed = true;
     }
 
-    static inline var SPEED:Int = 350;
+    
 
     override function update(dt:Float)
     {
-    	if(upPressed) player.sprite.pos.y -= SPEED * dt;
-    	if(downPressed) player.sprite.pos.y += SPEED * dt;
-    	if(leftPressed) player.sprite.pos.x -= SPEED * dt;
-    	if(rightPressed) player.sprite.pos.x += SPEED * dt;
+        if(upPressed) player.moveUp(dt);
+        if(downPressed) player.moveDown(dt);
+        if(leftPressed) player.moveLeft(dt);
+        if(rightPressed) player.moveRight(dt);
     }
 }
