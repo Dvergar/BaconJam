@@ -63,7 +63,7 @@ class Main extends luxe.Game
 
     override function onmousemove(e:MouseEvent)
     {
-        line.p0 = new Vector(player.sprite.pos.x, player.sprite.pos.y);
+        // LINE OF SIGHT MOVE - TARGET
         line.p1 = new Vector(e.pos.x, e.pos.y);
     }
 
@@ -109,5 +109,8 @@ class Main extends luxe.Game
         if(downPressed) player.moveDown(dt);
         if(leftPressed) player.moveLeft(dt);
         if(rightPressed) player.moveRight(dt);
+
+        // LINE OF SIGHT MOVE - TARGET
+        line.p0 = new Vector(player.sprite.pos.x, player.sprite.pos.y);
     }
 }
