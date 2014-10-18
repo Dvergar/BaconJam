@@ -16,12 +16,12 @@ class Main extends luxe.Game
     var player:Player;
     var line:LineGeometry;
 	public var input:Vector;
-	public var mousePos:Vector;
+	public var mousePos:Vector = new Vector(0,0);
 
     override function ready()
     {
 		input = new Vector();
-        player = new Player(Luxe.screen.mid.x, Luxe.screen.mid.y);
+		player = new Player(Luxe.screen.mid.x, Luxe.screen.mid.y);
         line = Luxe.draw.line({
             p0: new Vector(0, Luxe.screen.h/2),
             p1: new Vector(Luxe.screen.w, Luxe.screen.h/2),
@@ -32,7 +32,7 @@ class Main extends luxe.Game
     override function onmousemove(e:MouseEvent)
     {
         // LINE OF SIGHT MOVE - TARGET
-		mousePos = e.pos;
+		mousePos = e.pos.clone();
         line.p1 = mousePos;
     }
 
@@ -79,7 +79,6 @@ class Main extends luxe.Game
 
         // LINE OF SIGHT MOVE - TARGET
         line.p0 = new Vector(player.pos.x, player.pos.y);
-
 
         // UPDATE EVENT DISPATCH
         //Luxe.events.fire('update', dt);
