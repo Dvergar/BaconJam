@@ -82,6 +82,11 @@ class Main extends luxe.Game
 
         // UPDATE EVENT DISPATCH
         //Luxe.events.fire('update', dt);
+		Luxe.draw.text( {
+			immediate : true,
+			pos: new Vector(0,Luxe.screen.h-30),
+			text: Math.round( 1/Luxe.debug.dt_average) +" | "+ (Luxe.debug.dt_average+"").substr(0,6),
+		});
     }
 	
 	
