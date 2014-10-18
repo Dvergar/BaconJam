@@ -25,24 +25,15 @@ class Player
             pos : new Vector(x, y),
         });
     }
-
-    public function moveUp(dt:Float)
-        sprite.pos.y -= SPEED * dt;
-
-    public function moveDown(dt:Float)
-        sprite.pos.y += SPEED * dt;
-
-    public function moveLeft(dt:Float)
-    {
-        sprite.pos.x -= SPEED * dt;
-        sprite.flipx = true;
-    }
-
-    public function moveRight(dt:Float)
-    {
-        sprite.pos.x += SPEED * dt;
-        sprite.flipx = false;
-    }
+	
+	public function move(input:Vector,dt:Float) 
+	{
+		sprite.pos=Vector.Add(sprite.pos,Vector.Multiply(input, SPEED * dt));
+		if (input.x < 0)
+			sprite.flipx = true;
+		if (input.x > 0)
+			sprite.flipx = false;
+	}
 }
 
 
@@ -50,9 +41,11 @@ class Main extends luxe.Game
 {
     var player:Player;
     var line:LineGeometry;
+	var input:Vector;
 
     override function ready()
     {
+		input = new Vector();
         player = new Player(Luxe.screen.mid.x, Luxe.screen.mid.y);
         line = Luxe.draw.line({
             p0: new Vector(0, Luxe.screen.h/2),
@@ -74,40 +67,48 @@ class Main extends luxe.Game
 
     override function onkeyup(e:KeyEvent)
     {
-        if(e.keycode == Key.key_w)
+        if(e.keycode == Key.key_w || e.keycode == Key.up)
             upPressed = false;
 
-        if(e.keycode == Key.key_s)
+        if(e.keycode == Key.key_s || e.keycode == Key.down)
             downPressed = false;
 
-        if(e.keycode == Key.key_a)
+        if(e.keycode == Key.key_a || e.keycode == Key.left)
             leftPressed = false;
 
-        if(e.keycode == Key.key_d)
+        if(e.keycode == Key.key_d || e.keycode == Key.right)
             rightPressed = false;
 
     }
 
     override function onkeydown(e:KeyEvent)
     {
-        if(e.keycode == Key.key_w)
+        if(e.keycode == Key.key_w || e.keycode == Key.up)
             upPressed = true;
 
-        if(e.keycode == Key.key_s)
+        if(e.keycode == Key.key_s || e.keycode == Key.down)
             downPressed = true;
 
-        if(e.keycode == Key.key_a)
+        if(e.keycode == Key.key_a || e.keycode == Key.left)
             leftPressed = true;
 
-        if(e.keycode == Key.key_d)
+        if(e.keycode == Key.key_d || e.keycode == Key.right)
             rightPressed = true;
     }
 
     override function update(dt:Float)
     {
-        if(upPressed) player.moveUp(dt);
-        if(downPressed) player.moveDown(dt);
-        if(leftPressed) player.moveLeft(dt);
-        if(rightPressed) player.moveRight(dt);
+		updateInput();
+		player.move(input,dt);
     }
+	
+	
+	function updateInput() 
+	{
+		input.set_xy(0, 0);
+		if(upPressed) input.y-=1;
+        if(downPressed) input.y+=1;
+        if(leftPressed) input.x-=1;
+        if(rightPressed) input.x+=1;
+	}
 }
