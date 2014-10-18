@@ -43,7 +43,6 @@ class Player extends Sprite
     {
 		move(dt);
 		fireComponent.shooting = Luxe.input.mousedown(1);
-
 		fireComponent.direction = Vector.Subtract(LuxeApp._game.mousePos,pos).normalized;
     }
 

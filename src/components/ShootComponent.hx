@@ -12,11 +12,10 @@ import luxe.Vector;
  */
 class ShootComponent extends Component
 {
-	var sprite:Sprite;
 	public var direction:Vector;
-	
 	public var fireRate:Float = 5;
 	public var shooting:Bool = false;
+	var sprite:Sprite;
 	var sinceLastShoot:Float = 0;
 	
 	public function new(?_options:ComponentOptions) 
