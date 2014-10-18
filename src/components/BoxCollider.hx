@@ -49,11 +49,12 @@ class BoxCollider extends Component
 	
 	override public function update(dt:Float) 
 	{
-		collides = collideWith(LuxeApp._game.shapes);
-
 		super.update(dt);
+
 		shape.x = sprite.pos.x + (centered ? -width / 2 : 0);
 		shape.y = sprite.pos.y + (centered ? -width / 2 : 0);
+		collides = collideWith(LuxeApp._game.shapes);
+
 		if (render)
 		{
 			Luxe.draw.box( {
@@ -83,7 +84,12 @@ class BoxCollider extends Component
 		for (collision in Collision.testShapes(shape, shapes))
 		{
 			if (collision != null)
+			{
+				sprite.pos.add(collision.separation);
+				shape.x = sprite.pos.x + (centered ? -width / 2 : 0);
+				shape.y = sprite.pos.y + (centered ? -width / 2 : 0);
 				return true;
+			}
 		}
 		return false;
 	}

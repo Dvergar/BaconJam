@@ -19,11 +19,11 @@ import phoenix.geometry.QuadGeometry;
 
 class BaconMap  // Damn it, can't call it Map or Tilemap
 {
-    static inline var TILESIZE = 64;
-    var TILES_HIGH:Int;
-    var TILES_WIDE:Int;
+    public static inline var TILESIZE = 64;
+    public var collisionMap:Array<Array<Bool>>;
+    public var TILES_HIGH:Int;
+    public var TILES_WIDE:Int;
     var tiles:Tilemap;
-    var collisionMap:Array<Array<Bool>>;
 
     public function new()
     {
@@ -109,23 +109,29 @@ class Main extends luxe.Game
 {
 	public var shapes:Array<Shape> = new Array();
 	public var enemyShapes:Array<Shape> = new Array();
-	public var bulletShapes:Array<Shape> = new Array();
+    public var bulletShapes:Array<Shape> = new Array();
+	public var worldShapes:Array<Shape> = new Array();
     public var player:Player;
-    var box:QuadGeometry;
 	public var input:Vector;
 	public var mousePos:Vector = new Vector(0,0);
+    var map:BaconMap;
 
     override function ready()
     {
 		input = new Vector();
 		player = new Player(Luxe.screen.mid.x, Luxe.screen.mid.y);
-        new BaconMap();
+        map = new BaconMap();
 		shapes.push(Polygon.rectangle(0, 0, Luxe.screen.w, 20, false));
 		shapes.push(Polygon.rectangle(0, Luxe.screen.h-20, Luxe.screen.w, 20, false));
 		shapes.push(Polygon.rectangle(0, 0, 20, Luxe.screen.h, false));
 		shapes.push(Polygon.rectangle(Luxe.screen.w - 20, 0, 20, Luxe.screen.h, false));
 		
 		new Enemy(100, 100);
+
+        for(posx in 0...map.TILES_WIDE)
+            for(posy in 0...map.TILES_HIGH)
+                if(map.collisionMap[posx][posy])
+                    shapes.push(Polygon.rectangle(posx * BaconMap.TILESIZE, posy * BaconMap.TILESIZE, BaconMap.TILESIZE, BaconMap.TILESIZE, false));
     }
 
     override function onmousemove(e:MouseEvent)
@@ -183,7 +189,7 @@ class Main extends luxe.Game
         var distance = Math.sqrt(Math.pow((mousePos.x - player.pos.x), 2)
                                + Math.pow((mousePos.y - player.pos.y), 2));
 
-        box = Luxe.draw.box({
+        Luxe.draw.box({
             x: player.pos.x, y: player.pos.y,
             w: width,
             h: distance,
