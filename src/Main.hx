@@ -1,5 +1,6 @@
 
 import entities.Enemy;
+import entities.FallingRock;
 import luxe.collision.ShapeDrawerLuxe;
 import luxe.collision.shapes.Polygon;
 import luxe.collision.shapes.Shape;
@@ -115,6 +116,7 @@ class Main extends luxe.Game
 	public var input:Vector;
 	public var mousePos:Vector = new Vector(0,0);
     var map:BaconMap;
+	var shit:Array<Dynamic> = new Array();
 
     override function ready()
     {
@@ -155,6 +157,9 @@ class Main extends luxe.Game
 
         if(e.keycode == Key.key_d || e.keycode == Key.right)
             rightPressed = false;
+			
+		if (e.keycode == Key.space)
+			rockFall(player.pos.x, player.pos.y);
 
     }
 
@@ -217,4 +222,9 @@ class Main extends luxe.Game
 		#end
 		
     }
+	
+	public function rockFall(x:Float,y:Float)
+	{
+		shit.push(new FallingRock(x, y));
+	}
 }
