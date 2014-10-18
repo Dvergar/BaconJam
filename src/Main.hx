@@ -18,10 +18,6 @@ import phoenix.geometry.QuadGeometry;
 
 class BaconMap  // Damn it, can't call it Map or Tilemap
 {
-    static inline var GROUND = 1;
-    static inline var BLOCK = 2;
-    static inline var BLOCK_BOTTOM = 3;
-    static inline var SHADOW = 4;
     static inline var TILESIZE = 64;
     var TILES_HIGH:Int;
     var TILES_WIDE:Int;
@@ -37,7 +33,6 @@ class BaconMap  // Damn it, can't call it Map or Tilemap
 
         tiles = parseMap({data:map, skip: ["char", "shadows"]});
         collisionMap = getCollisionMapFrom(map, "collisionmap");
-        trace("collisionMap" + collisionMap);
     }
 
     function parseMap(args:{data:Dynamic, skip:Array<String>})
