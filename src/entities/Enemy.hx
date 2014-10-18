@@ -25,7 +25,8 @@ class Enemy extends Sprite
         super({
             texture : texture,
             pos : new Vector(x, y),
-			name:"enemy"
+			name:"enemy",
+			depth: 1
         });
 		shape = Polygon.rectangle(x, y, 50, 60, true);
 		LuxeApp._game.enemyShapes.push(shape);		

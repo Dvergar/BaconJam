@@ -22,9 +22,11 @@ class Player extends Sprite
         texture.filter = FilterType.nearest;
 
         super({
-            texture : texture,
-            pos : new Vector(x, y),
+            texture: texture,
+            pos: new Vector(x, y),
+            depth: 1,
 			name: "player"
+
         });
 
         Luxe.events.listen('update', update);

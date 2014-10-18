@@ -24,8 +24,9 @@ class Bullet extends Sprite
         texture.filter = FilterType.nearest;
 		
         super({
-            texture : texture,
-            pos : new Vector(x, y),
+            texture: texture,
+            pos: new Vector(x, y),
+            depth: 1,
         });
 		
 		this.rotation.setFromAxisAngle(new Vector(0, 0, 1), Math.atan2(direction.y, direction.x) -0.1 + Math.random() * 0.2);

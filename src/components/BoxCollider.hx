@@ -57,12 +57,13 @@ class BoxCollider extends Component
 		if (render)
 		{
 			Luxe.draw.box( {
-				x:x,
-				y:y,
-				w:width,
-				h:height,
-				immediate:true,
-				color:new Color().rgb(collides ? 0xFF0000 : 0x737178),
+				x: x,
+				y: y,
+				w: width,
+				h: height,
+				immediate: true,
+				color: new Color().rgb(collides ? 0xFF0000 : 0x737178),
+				depth: 1,
 			} );
 		}
 	}
