@@ -1,4 +1,5 @@
 package;
+import components.BoxCollider;
 import components.ShootComponent;
 import luxe.Input.MouseButton;
 import luxe.Sprite;
@@ -31,6 +32,9 @@ class Player extends Sprite
 		fireComponent = new ShootComponent();
 		fireComponent.fireRate = 30;
 		add(fireComponent);
+		
+		add(new BoxCollider(60, 75, true));
+		get("BoxCollider").render = true;
     }
 	
     override function update(dt:Float)
