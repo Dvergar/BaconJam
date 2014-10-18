@@ -17,7 +17,6 @@ import phoenix.Texture.FilterType;
 import phoenix.geometry.QuadGeometry;
 
 
-
 class BaconMap  // Damn it, can't call it Map or Tilemap
 {
     public static inline var TILESIZE = 64;
@@ -33,7 +32,9 @@ class BaconMap  // Damn it, can't call it Map or Tilemap
         TILES_HIGH = map.tileshigh;
         TILES_WIDE = map.tileswide;
 
-        tiles = parseMap({data:map, skip: ["char", "shadows"]});
+        tiles = parseMap({data:map, skip: ["char"]});
+        tiles.layers.get("shadows").opacity = 0.1;
+        tiles.display({});
         collisionMap = getCollisionMapFrom(map, "collisionmap");
     }
 
@@ -62,15 +63,13 @@ class BaconMap  // Damn it, can't call it Map or Tilemap
         {
             if(Lambda.has(args.skip, layer.name)) continue;
 
-            demTiles.add_layer({name: layer.name, layer: Std.int(layer.number * -1), opacity: 1, visible: true});
+            demTiles.add_layer({name: layer.name, layer: Std.int(layer.number * -1)});
             demTiles.add_tiles_fill_by_id(layer.name, 0);  // Gnn
 
             var tiles:Array<Dynamic> = layer.tiles;
             for(tile in tiles)
                 demTiles.tile_at(layer.name, tile.x, tile.y).id = tile.tile + 1;
         }
-
-        demTiles.display({scale:1});
         return demTiles;
     }
 
@@ -108,12 +107,11 @@ class BaconMap  // Damn it, can't call it Map or Tilemap
 
 class Main extends luxe.Game
 {
-	public var shapes:Array<Shape> = new Array();
-	public var enemyShapes:Array<Shape> = new Array();
-    public var bulletShapes:Array<Shape> = new Array();
-	public var worldShapes:Array<Shape> = new Array();
     public var player:Player;
 	public var input:Vector;
+    public var colliders:Array<Rectangle> = new Array();
+    public var enemyColliders:Array<Rectangle> = new Array();
+    public var bulletColliders:Array<Rectangle> = new Array();
 	public var mousePos:Vector = new Vector(0,0);
     var map:BaconMap;
 	var shit:Array<Dynamic> = new Array();
@@ -123,17 +121,13 @@ class Main extends luxe.Game
 		input = new Vector();
 		player = new Player(Luxe.screen.mid.x, Luxe.screen.mid.y);
         map = new BaconMap();
-		shapes.push(Polygon.rectangle(0, 0, Luxe.screen.w, 20, false));
-		shapes.push(Polygon.rectangle(0, Luxe.screen.h-20, Luxe.screen.w, 20, false));
-		shapes.push(Polygon.rectangle(0, 0, 20, Luxe.screen.h, false));
-		shapes.push(Polygon.rectangle(Luxe.screen.w - 20, 0, 20, Luxe.screen.h, false));
-		
 		new Enemy(100, 100);
 
+        // PUSH COLLIDERS FROM COLLISION MAP
         for(posx in 0...map.TILES_WIDE)
             for(posy in 0...map.TILES_HIGH)
                 if(map.collisionMap[posx][posy])
-                    shapes.push(Polygon.rectangle(posx * BaconMap.TILESIZE, posy * BaconMap.TILESIZE, BaconMap.TILESIZE, BaconMap.TILESIZE, false));
+                    colliders.push(new Rectangle(posx * BaconMap.TILESIZE, posy * BaconMap.TILESIZE, BaconMap.TILESIZE, BaconMap.TILESIZE));
     }
 
     override function onmousemove(e:MouseEvent)
@@ -206,18 +200,24 @@ class Main extends luxe.Game
             depth: 1,
         });
 		
-		//display FPS
+		// DISPLAY FPS
 		Luxe.draw.text( {
-			immediate : true,
+			immediate: true,
 			pos: new Vector(0,Luxe.screen.h-30),
 			text: Math.round( 1/Luxe.debug.dt_average) +" | "+ (Luxe.debug.dt_average+"").substr(0,6),
 		});
 		
-		
 		#if debug
-		for (shape in shapes)
+		for (collider in colliders)
 		{
-			new ShapeDrawerLuxe().drawShape(shape);
+            Luxe.draw.rectangle({
+                x: collider.x, y : collider.y,
+                w: collider.w,
+                h: collider.h,
+                color: new Color(1, 1 ,1),
+                immediate: true,
+                depth: 3,
+            });
 		}
 		#end
 		

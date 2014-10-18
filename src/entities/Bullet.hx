@@ -12,9 +12,7 @@ import phoenix.Texture.FilterType;
 class Bullet extends Sprite
 {
 	var direction:Vector;
-
 	public var speed:Float = 400;
-	
 	public var collider:BoxCollider;
 	
     public function new(x:Float, y:Float,direction:Vector)
@@ -29,7 +27,8 @@ class Bullet extends Sprite
             depth: 1,
         });
 		
-		this.rotation.setFromAxisAngle(new Vector(0, 0, 1), Math.atan2(direction.y, direction.x) -0.1 + Math.random() * 0.2);
+		this.rotation.setFromAxisAngle(new Vector(0, 0, 1),
+									   Math.atan2(direction.y, direction.x) -0.1 + Math.random() * 0.2);
 		collider = new BoxCollider(10, 10, false);
 		add(collider);
 	}
@@ -37,7 +36,7 @@ class Bullet extends Sprite
 	override public function init() 
 	{
 		super.init();
-		LuxeApp._game.bulletShapes.push(collider.shape);
+		LuxeApp._game.bulletColliders.push(collider.collisionBox);
 	}
 		
 	override public function update(dt:Float) 

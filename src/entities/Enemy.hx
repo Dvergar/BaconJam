@@ -6,6 +6,7 @@ import luxe.collision.shapes.Polygon;
 import luxe.collision.shapes.Shape;
 import luxe.Sprite;
 import luxe.Vector;
+import luxe.Rectangle;
 import phoenix.Texture.FilterType;
 
 /**
@@ -14,9 +15,9 @@ import phoenix.Texture.FilterType;
  */
 class Enemy extends Sprite
 {
-
-	var shape:Shape;
+	var collider:Rectangle;
 	var health:Int = 10;
+
 	public function new(x:Float, y:Float)
 	{
 		var texture = Luxe.loadTexture('assets/enemy.png');
@@ -28,40 +29,31 @@ class Enemy extends Sprite
 			name:"enemy",
 			depth: 1
         });
-		shape = Polygon.rectangle(x, y, 50, 60, true);
-		LuxeApp._game.enemyShapes.push(shape);		
+		collider = new Rectangle(x, y, 50, 60);
+		LuxeApp._game.enemyColliders.push(collider);		
 	}
 	
 	override public function update(dt:Float) 
 	{
 		super.update(dt);
-		new ShapeDrawerLuxe().drawShape(shape);
 		
 		var direction = LuxeApp._game.player.pos.clone().subtract(pos).normalize();
 		pos.add(direction.multiplyScalar(100 * dt));
 		
-		shape.x = pos.x;
-		shape.y = pos.y;
+		collider.x = pos.x;
+		collider.y = pos.y;
 		
-		var bulletCollision = collideWith(LuxeApp._game.bulletShapes);
-		if (bulletCollision !=null)
-		{
-			//bulletCollision.shape2.destroy();
+		var bulletCollision = collideWith(LuxeApp._game.bulletColliders);
+		if (bulletCollision)
 			health -= 5;
-		}
 		
 		if (health <= 0)
-		{
 			die();
-		}
-		
-		
 	}
 	
 	override function ondestroy() 
 	{
-		LuxeApp._game.enemyShapes.remove(shape);
-		shape.destroy();
+		LuxeApp._game.enemyColliders.remove(collider);
 		super.ondestroy();
 	}
 	
@@ -71,14 +63,14 @@ class Enemy extends Sprite
 		trace("die");
 	}
 	
-	public function collideWith(shapes:Array<Shape>):CollisionData
+	public function collideWith(colliders:Array<Rectangle>):Bool
 	{
-		for (collision in Collision.testShapes(shape, shapes))
+		for (_collider in colliders)
 		{
-			if (collision != null)
-				return collision;
+			if (_collider.overlaps(collider))
+				return true;
 		}
-		return null;
+		return false;
 	}
 
 
