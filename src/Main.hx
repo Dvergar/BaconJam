@@ -28,7 +28,7 @@ class Player
 	
 	public function move(input:Vector,dt:Float) 
 	{
-		sprite.pos=Vector.Add(sprite.pos,Vector.Multiply(input, SPEED * dt));
+		sprite.pos.add(input.multiplyScalar( SPEED * dt));
 		if (input.x < 0)
 			sprite.flipx = true;
 		if (input.x > 0)
@@ -56,7 +56,7 @@ class Main extends luxe.Game
 
     override function onmousemove(e:MouseEvent)
     {
-        line.p0 = new Vector(player.sprite.pos.x, player.sprite.pos.y);
+        // LINE OF SIGHT MOVE - TARGET
         line.p1 = new Vector(e.pos.x, e.pos.y);
     }
 
@@ -98,8 +98,13 @@ class Main extends luxe.Game
 
     override function update(dt:Float)
     {
+
 		updateInput();
 		player.move(input,dt);
+
+
+        // LINE OF SIGHT MOVE - TARGET
+        line.p0 = new Vector(player.sprite.pos.x, player.sprite.pos.y);
     }
 	
 	
@@ -109,6 +114,7 @@ class Main extends luxe.Game
 		if(upPressed) input.y-=1;
         if(downPressed) input.y+=1;
         if(leftPressed) input.x-=1;
-        if(rightPressed) input.x+=1;
+        if (rightPressed) input.x += 1;
+		input.normalize();
 	}
 }
