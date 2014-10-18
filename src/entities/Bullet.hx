@@ -1,4 +1,5 @@
 package entities;
+import luxe.Quaternion;
 import luxe.Sprite;
 import luxe.Vector;
 import phoenix.Texture.FilterType;
@@ -11,7 +12,7 @@ class Bullet extends Sprite
 {
 	var direction:Vector;
 
-	public var speed:Float = 100;
+	public var speed:Float = 400;
     public function new(x:Float, y:Float,direction:Vector)
     {
         this.direction = direction.normalized;
@@ -23,13 +24,13 @@ class Bullet extends Sprite
             pos : new Vector(x, y),
         });
 		
-		this.rotation.setFromAxisAngle(new Vector(0, 0, 1), Math.atan2(direction.y,direction.x));
+		this.rotation.setFromAxisAngle(new Vector(0, 0, 1), Math.atan2(direction.y, direction.x) -0.1 + Math.random()*0.2);
 	}
 	
 	override public function update(dt:Float) 
 	{
 		super.update(dt);
-		//pos.add(direction.multiplyScalar(speed*dt)); //this doesn't work for some reasons
+		var direction = new Vector(1, 0, 0).applyQuaternion(rotation);
 		pos.x += direction.x * speed * dt;
 		pos.y += direction.y * speed * dt;
 	}
