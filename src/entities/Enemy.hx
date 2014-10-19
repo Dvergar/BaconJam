@@ -1,4 +1,5 @@
 package entities;
+import components.BoxCollider;
 import luxe.collision.Collision;
 import luxe.collision.CollisionData;
 import luxe.collision.ShapeDrawerLuxe;
@@ -29,8 +30,11 @@ class Enemy extends Sprite
 			name:"enemy",
 			depth: 1
         });
-		collider = new Rectangle(x, y, 50, 60);
-		LuxeApp._game.enemyColliders.push(collider);		
+		var box = new BoxCollider(50, 60, true);
+		add(box);
+		collider = box.collisionBox;
+		//collider = new Rectangle(x, y, 50, 60);
+		LuxeApp._game.enemyColliders.push(collider);
 	}
 	
 	override public function update(dt:Float) 
