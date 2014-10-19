@@ -15,6 +15,7 @@ class FallingRock extends Sprite
 	var time = 1;
 	var targetY:Float;
 	var shadow:Sprite;
+	var targetX:Float;
 	
 	public function new(x:Float, y:Float) 
 	{
@@ -27,12 +28,13 @@ class FallingRock extends Sprite
 		shadow.color.a = 0;
 		
 		targetY = y;
+		targetX = x;
 		var texture = Luxe.loadTexture('assets/rock.png');
         texture.filter = FilterType.nearest;
 		
         super({
             texture : texture,
-            pos : new Vector(x, y-time*speed),
+            pos : new Vector(x-time*speed, y-time*speed),
 			depth: 2
         });
 	}
@@ -44,11 +46,12 @@ class FallingRock extends Sprite
 		if (shadow !=null && shadow.color.a < 1)
 			shadow.color.a += dt;
 		
-		pos.add(new Vector(0, speed).multiplyScalar(dt));
+		pos.add(new Vector(speed, speed).multiplyScalar(dt));
 		
 		if (pos.y > targetY)
 		{
 			pos.y = targetY;
+			pos.x = targetX;
 			if (shadow != null)
 			{
 				if (Vector.Subtract(pos, LuxeApp._game.player.pos).length < 50)
@@ -57,6 +60,7 @@ class FallingRock extends Sprite
 				}
 				shadow.destroy();
 				shadow = null;
+				new Enemy(targetX-32, targetY-32);
 				Luxe.camera.shake(6, true);
 			}
 			

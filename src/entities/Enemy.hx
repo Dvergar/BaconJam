@@ -32,7 +32,7 @@ class Enemy extends Sprite
         super({
             texture: texture,
             pos: new Vector(x+25, y+30),
-            depth: 1,
+            depth: 3,
             //origin: new Vector(0, 0),
 			size : new Vector(64, 64),
         });
@@ -59,7 +59,7 @@ class Enemy extends Sprite
 	        anim.play();
     	}
 
-		collider = new BoxCollider(ENEMY, 50, 60, [LuxeApp._game.colliders], true);
+		collider = new BoxCollider(ENEMY, 45, 55, [LuxeApp._game.colliders], true);
 		add(collider);
 		// collider = box.collisionBox;
 		LuxeApp._game.enemyColliders.push(collider.rectangle);
@@ -72,10 +72,11 @@ class Enemy extends Sprite
 		
 		var direction = LuxeApp._game.player.pos.clone().subtract(pos).normalize();
 		pos.add(direction.multiplyScalar(100 * dt));
+		flipx = direction.x < 0;
 		
 		// var bulletCollision = collideWith(LuxeApp._game.bulletColliders);
 		var bulletCollision = Lambda.has(collider.rectangle.collisionTypes, BULLET);
-		trace("bulletCollision " + collider.rectangle.collisionTypes);
+		//trace("bulletCollision " + collider.rectangle.collisionTypes);
 
 		if (bulletCollision)
 			health -= 15;
