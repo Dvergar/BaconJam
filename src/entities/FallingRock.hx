@@ -11,8 +11,8 @@ import phoenix.Texture.FilterType;
 class FallingRock extends Sprite
 {
 	
-	var speed = 500;
-	var time = 5;
+	var speed = 800;
+	var time = 1;
 	var targetY:Float;
 	var shadow:Sprite;
 	
@@ -41,18 +41,22 @@ class FallingRock extends Sprite
 	{
 		super.update(dt);
 		
-		if (shadow.color.a < 1)
+		if (shadow !=null && shadow.color.a < 1)
 			shadow.color.a += dt;
 		
 		pos.add(new Vector(0, speed).multiplyScalar(dt));
 		
 		if (pos.y > targetY)
 		{
-			//do shit with collisions
 			pos.y = targetY;
 			if (shadow != null)
 			{
+				if (Vector.Subtract(pos, LuxeApp._game.player.pos).length < 50)
+				{
+					LuxeApp._game.player.hurt(15);
+				}
 				shadow.destroy();
+				shadow = null;
 				Luxe.camera.shake(6, true);
 			}
 			

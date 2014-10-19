@@ -302,6 +302,6 @@ class Main extends luxe.Game
 	public function rockFall(x:Float,y:Float)
 	{
 		new FallingRock(x, y);
-		player.hurt(10);
+		//player.hurt(10);
 	}
 }

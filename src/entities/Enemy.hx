@@ -17,7 +17,7 @@ import phoenix.Texture.FilterType;
 class Enemy extends Sprite
 {
 	var collider:Rectangle;
-	var health:Int = 100;
+	var health:Int = 45;
 
 	public function new(x:Float, y:Float)
 	{
