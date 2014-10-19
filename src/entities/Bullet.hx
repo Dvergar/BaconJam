@@ -19,7 +19,7 @@ class Bullet extends Sprite
 	
     public function new(x:Float, y:Float,direction:Vector)
     {
-		collider = new BoxCollider(2, 2, [LuxeApp._game.colliders, LuxeApp._game.enemyColliders], true);
+		collider = new BoxCollider(BULLET, 2, 2, [LuxeApp._game.colliders, LuxeApp._game.enemyColliders], true);
 		
         this.direction = direction.normalized;
 
@@ -47,7 +47,7 @@ class Bullet extends Sprite
 	override public function init() 
 	{
 		super.init();
-		LuxeApp._game.bulletColliders.push(collider.collisionBox);
+		LuxeApp._game.bulletColliders.push(collider.rectangle);
 	}
 		
 	override public function update(dt:Float) 
@@ -61,30 +61,32 @@ class Bullet extends Sprite
 		{
 			// CLEAN UP
 			destroy();
-			LuxeApp._game.bulletColliders.remove(collider.collisionBox);
+			LuxeApp._game.bulletColliders.remove(collider.rectangle);
 
-			// BLOOD PARTICLES
-			var texture = Luxe.loadTexture('assets/blood.png');
-	        texture.filter = FilterType.nearest;
+			if(Lambda.has(collider.rectangle.collisionTypes, ENEMY))
+			{
+				// BLOOD PARTICLES
+				var texture = Luxe.loadTexture('assets/blood.png');
+		        texture.filter = FilterType.nearest;
 
-	        var c = new Color(1, 1, 1, 1);
-	        var sprite = new Sprite({
-	            texture : texture,
-	            pos : pos,
-	            depth : 1,
-	            color: c,
-	        });
+		        var c = new Color(1, 1, 1, 1);
+		        var sprite = new Sprite({
+		            texture : texture,
+		            pos : pos,
+		            depth : 1,
+		            color: c,
+		        });
 
-	        Actuate.tween(c, 1, {a: 0}).ease( luxe.tween.easing.Expo.easeOut );
-	        Actuate.tween(sprite.pos, 0.5, { x: pos.x + direction.x * 100,
-	        							     y: pos.y + direction.y * 100,
-	        							     })
-	        	.ease( luxe.tween.easing.Expo.easeOut )
-	        	.onComplete(function()
-	        	{
-	        		sprite.destroy();
-			   	});
+		        Actuate.tween(c, 1, {a: 0}).ease( luxe.tween.easing.Expo.easeOut );
+		        Actuate.tween(sprite.pos, 0.5, { x: pos.x + direction.x * 100,
+		        							     y: pos.y + direction.y * 100,
+		        							     })
+		        	.ease( luxe.tween.easing.Expo.easeOut )
+		        	.onComplete(function()
+		        	{
+		        		sprite.destroy();
+				   	});
+	        }
 		}
 	}
-	
 }

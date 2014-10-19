@@ -17,6 +17,7 @@ import luxe.importers.tiled.TiledMap;
 import luxe.Quaternion;
 import phoenix.Texture.FilterType;
 import phoenix.geometry.QuadGeometry;
+import entities.Bullet;
 
 
 typedef Tile = {x:Int, y:Int};
@@ -135,13 +136,67 @@ class BaconMap  // Damn it, can't call it Map or Tilemap
 }
 
 
+// Rename ColliderType
+enum CollisionType
+{
+    WORLD;
+    ENEMY;
+    BULLET;
+    PLAYER;
+}
+
+
+// TOREFACTOR - Back to Array<CollisionRekt>;
+class Colliders
+{
+    public var array:Array<CollisionRekt> = new Array();
+    public var type:CollisionType;
+
+    public function new(type:CollisionType)
+    {
+        this.type = type;
+    }
+
+    public function push(rekt:CollisionRekt)
+        array.push(rekt);
+
+    public function remove(rekt:CollisionRekt)
+        array.remove(rekt);
+
+    // NOTIME FOR NOW
+    // public function hasNext()
+    // {
+    //     return array.hasNext();
+    // }
+
+    // public function next()
+    // {
+    //     return array.next();
+    // }
+}
+
+
+class CollisionRekt extends Rectangle
+{
+    public var collisionTypes:Array<CollisionType> = new Array();
+    public var type:CollisionType;
+
+    public function new(type:CollisionType, _x:Float=0, _y:Float=0, _w:Float=0, _h:Float=0)
+    {
+        super(_x, _y, _w, _h);
+        this.type = type;
+    }
+}
+
+
+
 class Main extends luxe.Game
 {
     public var player:Player;
 	public var input:Vector = new Vector();
-    public var colliders:Array<Rectangle> = new Array();
-    public var enemyColliders:Array<Rectangle> = new Array();
-    public var bulletColliders:Array<Rectangle> = new Array();
+    public var colliders = new Colliders(WORLD);
+    public var enemyColliders = new Colliders(ENEMY);
+    public var bulletColliders = new Colliders(BULLET);
 	public var mousePos:Vector = new Vector(0, 0);
     public var map:BaconMap;
     var loaded:Bool = false;
@@ -183,7 +238,7 @@ class Main extends luxe.Game
 
             new Enemy(enemyPos.x * BaconMap.TILESIZE,
                       enemyPos.y * BaconMap.TILESIZE);
-            
+
             Luxe.timer.schedule(2, spawnMob);
         }
 
@@ -193,7 +248,10 @@ class Main extends luxe.Game
         for(posx in 0...map.TILES_WIDE)
             for(posy in 0...map.TILES_HIGH)
                 if(map.collisionMap[posx][posy])
-                    colliders.push(new Rectangle(posx * BaconMap.TILESIZE, posy * BaconMap.TILESIZE, BaconMap.TILESIZE, BaconMap.TILESIZE));
+                    colliders.push(new CollisionRekt(WORLD, posx * BaconMap.TILESIZE,
+                                                            posy * BaconMap.TILESIZE,
+                                                            BaconMap.TILESIZE,
+                                                            BaconMap.TILESIZE));
     }
 
     override function onmousemove(e:MouseEvent)
@@ -291,36 +349,36 @@ class Main extends luxe.Game
 		
         // DISPLAY COLLIDERS
 		#if debug
-		for (collider in colliders)
+		for (rekt in colliders.array)
 		{
             Luxe.draw.rectangle({
-                x: collider.x, y : collider.y,
-                w: collider.w,
-                h: collider.h,
+                x: rekt.x, y : rekt.y,
+                w: rekt.w,
+                h: rekt.h,
                 color: new Color(1, 1 ,1),
                 immediate: true,
                 depth: 3,
             });
 		}
 
-        for (collider in bulletColliders)
+        for (rekt in bulletColliders.array)
         {
             Luxe.draw.rectangle({
-                x: collider.x, y : collider.y,
-                w: collider.w,
-                h: collider.h,
+                x: rekt.x, y : rekt.y,
+                w: rekt.w,
+                h: rekt.h,
                 color: new Color(1, 1 ,1),
                 immediate: true,
                 depth: 3,
             });
         }
 
-        for (collider in enemyColliders)
+        for (rekt in enemyColliders.array)
         {
             Luxe.draw.rectangle({
-                x: collider.x, y : collider.y,
-                w: collider.w,
-                h: collider.h,
+                x: rekt.x, y : rekt.y,
+                w: rekt.w,
+                h: rekt.h,
                 color: new Color(1, 1 ,1),
                 immediate: true,
                 depth: 3,

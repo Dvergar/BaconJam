@@ -10,6 +10,7 @@ import luxe.Vector;
 import luxe.Rectangle;
 import phoenix.Texture.FilterType;
 import luxe.components.sprite.SpriteAnimation;
+import Main;
 
 /**
  * ...
@@ -17,10 +18,10 @@ import luxe.components.sprite.SpriteAnimation;
  */
 class Enemy extends Sprite
 {
-	var collider:Rectangle;
+	public var collider:BoxCollider;
+	public var attackEvery:Float = 1.5;
 	var box:BoxCollider;
 	var health:Int = 45;
-	public var attackEvery:Float = 1.5;
 	var sinceLastAttack:Float = 1;
 
 	public function new(x:Float, y:Float)
@@ -58,10 +59,10 @@ class Enemy extends Sprite
 	        anim.play();
     	}
 
-		box = new BoxCollider(50, 60, [LuxeApp._game.colliders], false);
-		add(box);
-		collider = box.collisionBox;
-		LuxeApp._game.enemyColliders.push(collider);
+		collider = new BoxCollider(ENEMY, 50, 60, [LuxeApp._game.colliders], false);
+		add(collider);
+		// collider = box.collisionBox;
+		LuxeApp._game.enemyColliders.push(collider.rectangle);
 	}
 	
 	override public function update(dt:Float) 
@@ -72,7 +73,9 @@ class Enemy extends Sprite
 		var direction = LuxeApp._game.player.pos.clone().subtract(pos).normalize();
 		pos.add(direction.multiplyScalar(100 * dt));
 		
-		var bulletCollision = collideWith(LuxeApp._game.bulletColliders);
+		// var bulletCollision = collideWith(LuxeApp._game.bulletColliders);
+		var bulletCollision = Lambda.has(collider.rectangle.collisionTypes, BULLET);
+		trace("bulletCollision " + collider.rectangle.collisionTypes);
 
 		if (bulletCollision)
 			health -= 15;
@@ -85,11 +88,13 @@ class Enemy extends Sprite
 			LuxeApp._game.player.hurt(5);
 			sinceLastAttack = 0;
 		}
+
+		collider.rectangle.collisionTypes = new Array();
 	}
 	
 	override function ondestroy() 
 	{
-		LuxeApp._game.enemyColliders.remove(collider);
+		LuxeApp._game.enemyColliders.remove(collider.rectangle);
 		super.ondestroy();
 	}
 	
@@ -99,16 +104,13 @@ class Enemy extends Sprite
 		trace("die");
 	}
 	
-	public function collideWith(colliders:Array<Rectangle>):Bool
-	{
-		for (_collider in colliders)
-		{
-			if (_collider.overlaps(collider))
-				return true;
-		}
-		return false;
-	}
-
-
-	
+	// public function collideWith(colliders:Colliders):Bool
+	// {
+	// 	for (_collider in colliders.array)
+	// 	{
+	// 		if (_collider.overlaps(collider))
+	// 			return true;
+	// 	}
+	// 	return false;
+	// }
 }

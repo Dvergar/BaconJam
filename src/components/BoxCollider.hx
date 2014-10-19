@@ -13,6 +13,7 @@ import luxe.options.ComponentOptions;
 import luxe.Sprite;
 import luxe.Vector;
 import luxe.Rectangle;
+import Main;
 
 /**
  * ...
@@ -22,33 +23,33 @@ class BoxCollider extends Component
 {
 	var sprite:Sprite;
 	var centered:Bool;
-	var colliderList:Array<Array<Rectangle>>;
+	var colliderList:Array<Colliders>;
 	public var render:Bool = false;
 	public var collides:Bool;
-	public var collisionBox:Rectangle;
+	public var rectangle:CollisionRekt;
 	
 	public var x(get, null):Float;
 	public var y(get, null):Float;
 	@:isVar public var width(default, set):Float;
 	@:isVar public var height(default, set):Float;
 
-	public function new(width:Float, height:Float, colliderList:Array<Array<Rectangle>>, centered:Bool=false) 
+	public function new(type:CollisionType, width:Float, height:Float, colliderList:Array<Colliders>, centered:Bool=false) 
 	{
 		super( { name:"BoxCollider" } );
 		this.centered = centered;
 		this.height = height;
 		this.width = width;
 		this.colliderList = colliderList;
-		collisionBox = new Rectangle(0, 0, width, height);
+		rectangle = new CollisionRekt(type, 0, 0, width, height);
 	}
 	
-	override public function init() 
+	override public function init()
 	{
 		super.init();
 		sprite = cast entity;
 
-		collisionBox.x = sprite.pos.x + (centered ? -width/2 : 0);
-		collisionBox.y = sprite.pos.y + (centered ? -width/2 : 0);
+		rectangle.x = sprite.pos.x + (centered ? -width/2 : 0);
+		rectangle.y = sprite.pos.y + (centered ? -width/2 : 0);
 	}
 	
 	override public function update(dt:Float) 
@@ -57,31 +58,41 @@ class BoxCollider extends Component
 
 		// CACHE OLD COLLIDER POSITION
 		collides = false;
-		var oldCollisionBox = collisionBox.clone();
+		var oldCollisionBox = rectangle.clone();
 
 		// MOVE Y AND CORRECT IF COLLISION
-		collisionBox.y = sprite.pos.y + (centered ? -width / 2 : 0);
+		rectangle.y = sprite.pos.y + (centered ? -width / 2 : 0);
 		for(colliders in colliderList)
-			for(collider in colliders)
-				if(collider.overlaps(collisionBox))
+			for(rekt in colliders.array)
+				if(rekt.overlaps(rectangle))
 				{
+					// MIND THE LEAKS
+					rectangle.collisionTypes.push(colliders.type);
+					if(colliders.type != WORLD)
+						rekt.collisionTypes.push(rectangle.type);
+						
 					collides = true;
-					collisionBox.y = oldCollisionBox.y;
+					rectangle.y = oldCollisionBox.y;
 				}
 
 		// MOVE X AND CORREF IF COLLISION
-		collisionBox.x = sprite.pos.x + (centered ? -width / 2 : 0);
+		rectangle.x = sprite.pos.x + (centered ? -width / 2 : 0);
 		for(colliders in colliderList)
-			for(collider in colliders)
-				if(collider.overlaps(collisionBox))
+			for(rekt in colliders.array)
+				if(rekt.overlaps(rectangle))
 				{
-				collides = true;
-				collisionBox.x = oldCollisionBox.x;
+					// MIND THE LEAKS
+					rectangle.collisionTypes.push(colliders.type);
+					if(colliders.type != WORLD)
+						rekt.collisionTypes.push(rectangle.type);
+
+					collides = true;
+					rectangle.x = oldCollisionBox.x;
 				}
 
 		// REFLECT TO SPRITE
-		sprite.pos.x = collisionBox.x - (centered ? -width / 2 : 0);
-		sprite.pos.y = collisionBox.y - (centered ? -width / 2 : 0);
+		sprite.pos.x = rectangle.x - (centered ? -width / 2 : 0);
+		sprite.pos.y = rectangle.y - (centered ? -width / 2 : 0);
 
 		if (render)
 		{
@@ -98,25 +109,25 @@ class BoxCollider extends Component
 	
 	public function set_width(newWidth:Float):Float
 	{
-		if(collisionBox!=null)
-			collisionBox.w = newWidth;
+		if(rectangle!=null)
+			rectangle.w = newWidth;
 		return width = newWidth;
 	}
 	
 	public function set_height(newHeight:Float):Float
 	{
-		if(collisionBox!=null)
-			collisionBox.h = newHeight;
+		if(rectangle!=null)
+			rectangle.h = newHeight;
 		return height = newHeight;
 	}
 
 	public function get_x():Float
 	{
-		return collisionBox.x;
+		return rectangle.x;
 	}
 	
 	public function get_y():Float
 	{
-		return collisionBox.y;
+		return rectangle.y;
 	}
 }

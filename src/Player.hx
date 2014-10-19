@@ -69,7 +69,7 @@ class Player extends Sprite
 		fireComponent.fireRate = 30;
 		add(fireComponent);
 		
-		add(new BoxCollider(50, 50, [LuxeApp._game.colliders], true));
+		add(new BoxCollider(PLAYER, 50, 50, [LuxeApp._game.colliders], true));
 		// get("BoxCollider").render = true;
     }
 	
