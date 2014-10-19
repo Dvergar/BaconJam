@@ -40,7 +40,7 @@ class Bullet extends Sprite
         }
 		
 		this.rotation.setFromAxisAngle(new Vector(0, 0, 1),
-									   Math.atan2(direction.y, direction.x) -0.1 + Math.random() * 0.2);
+									   Math.atan2(direction.y, direction.x));
 		add(collider);
 	}
 	
