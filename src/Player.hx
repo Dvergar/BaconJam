@@ -78,7 +78,7 @@ class Player extends Sprite
     {
 		move(dt);  // Why a function there? :(((
 		fireComponent.shooting = Luxe.input.mousedown(1);
-		fireComponent.direction = Vector.Subtract(LuxeApp._game.mousePos, pos).normalized;
+		fireComponent.direction = Vector.Subtract(LuxeApp._game.mousePos, Luxe.screen.mid).normalized;
 		health += dt;
 		if (health > MAX_HEALTH)
 			health = MAX_HEALTH;
