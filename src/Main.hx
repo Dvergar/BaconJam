@@ -256,7 +256,13 @@ class Main extends luxe.Game
 		
 		
 		Luxe.timer.schedule(1, rockFall);
+		Luxe.timer.schedule(1, rockFall);
+		Luxe.timer.schedule(1, rockFall);
+		Luxe.timer.schedule(1, rockFall);
 		Luxe.timer.schedule(3 + Math.random(), rockFall);
+		Luxe.timer.schedule(3 + Math.random(), rockFall);
+		Luxe.timer.schedule(3 + Math.random(), rockFall);
+		Luxe.timer.schedule(6 + Math.random(), rockFall);
 		Luxe.timer.schedule(6 + Math.random(), rockFall);
 		Luxe.timer.schedule(30 + Math.random(), rockFall);
 		Luxe.timer.schedule(60 + Math.random(), rockFall);
