@@ -37,7 +37,7 @@ class BaconMap  // Damn it, can't call it Map or Tilemap
         tiles = parseMap({data:map, skip: ["char"]});
         tiles.layers.get("shadows").opacity = 0.1;
         tiles.display({});
-        collisionMap = getCollisionMapFrom(map, "collisionmap");
+        collisionMap = getMapFrom(map, "collisionmap");
     }
 
     function parseMap(args:{data:Dynamic, skip:Array<String>})
@@ -75,7 +75,7 @@ class BaconMap  // Damn it, can't call it Map or Tilemap
         return demTiles;
     }
 
-    function getCollisionMapFrom(map:Dynamic, layerName:String)
+    function getMapFrom(map:Dynamic, layerName:String)
     {
         // DEFAULT THE COLLISIONMAP
         var collisionMap = new Array();
