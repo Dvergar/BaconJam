@@ -26,12 +26,20 @@ class PowerUp extends Sprite
 		
 		super({
 			pos: new Vector(x, y),
-			color: switch (kind)
+			// Not removing in case you want to add more;
+			// color: switch (kind)
+			// 		{
+			// 			case Crit:
+			// 				new Color().rgb(0xffff00);
+			// 			case FireRate:
+			// 				new Color().rgb(0x00FF00);
+			// 		},
+			texture: switch (kind)
 					{
 						case Crit:
-							new Color().rgb(0xffff00);
+							Luxe.loadTexture('assets/powerup_crit.png');
 						case FireRate:
-							new Color().rgb(0x00FF00);
+							Luxe.loadTexture('assets/powerup_firerate.png');
 					},
 			depth:5,
 			size: new Vector(25, 25)

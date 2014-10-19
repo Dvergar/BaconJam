@@ -1,12 +1,15 @@
 {
     "textures" : [
         { "id" : "assets/bullet.png" },
+        { "id" : "assets/blood.png" },
 		{ "id" : "assets/enemy.png" },
 		{ "id" : "assets/player.png" },
 		{ "id" : "assets/rock.png" },
 		{ "id" : "assets/rock-shadow.png"},
 		{ "id" : "assets/tileset.png" },
-		{ "id" : "assets/weapon.png" }
+        { "id" : "assets/weapon.png" },
+        { "id" : "assets/powerup_crit.png" },
+		{ "id" : "assets/powerup_firerate.png" },
     ],
     "fonts" : [
     ],
