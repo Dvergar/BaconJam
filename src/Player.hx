@@ -5,6 +5,7 @@ import components.ShootComponent;
 import luxe.Input.MouseButton;
 import luxe.Sprite;
 import luxe.Text;
+import luxe.tween.Actuate;
 import luxe.Vector;
 import phoenix.Texture.FilterType;
 
@@ -14,6 +15,7 @@ import phoenix.Texture.FilterType;
  */
 class Player extends Sprite
 {
+	public var health:Int=100;
     static inline var SPEED:Int = 350;
 	var fireComponent:ShootComponent;
 	var anim:SpriteAnimation;
@@ -97,6 +99,23 @@ class Player extends Sprite
 		else
 			if(anim.animation == 'idle')
 				anim.animation = 'walk';
+	}
+	
+	public function hurt(damage:Int)
+	{
+		health -= damage;
+		Actuate.tween(color, 1, { r:1, g:0, b:0 } ).reverse();
+		if (health <= 0)
+		{
+			health = 0;
+			die();
+		}
+	}
+	
+	function die() 
+	{
+		trace("YOU DIED");
+		destroy();
 	}
 	
 }

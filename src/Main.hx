@@ -116,7 +116,9 @@ class Main extends luxe.Game
     public var bulletColliders:Array<Rectangle> = new Array();
 	public var mousePos:Vector = new Vector(0, 0);
 	var loaded:Bool = false;
-    var map:BaconMap;	
+    var map:BaconMap;
+	
+	var healthBar:QuadGeometry;
 	
     override function ready()
 	{
@@ -204,6 +206,16 @@ class Main extends luxe.Game
 			return; //ugly fix
 		}
 		
+		healthBar = Luxe.draw.box({ 
+			x:30,
+			y:30,
+			w: 3*player.health,
+			h:30,
+			color: new Color().rgb(0xFF00FF00),
+			depth:10,
+			immediate:true
+		});
+		
         // INPUT UPDATE
         input.set_xy(0, 0);
         if(upPressed) input.y-=1;
@@ -283,5 +295,6 @@ class Main extends luxe.Game
 	public function rockFall(x:Float,y:Float)
 	{
 		new FallingRock(x, y);
+		player.hurt(10);
 	}
 }
