@@ -26,7 +26,7 @@ class Player extends Sprite
         super({
             texture: texture,
             pos: new Vector(x, y),
-            depth: 1,
+            depth: 2,
 			name: "player",
 			size : new Vector(64, 64),
         });
@@ -67,7 +67,7 @@ class Player extends Sprite
 		add(fireComponent);
 		
 		add(new BoxCollider(50, 50, true));
-		get("BoxCollider").render = true;
+		// get("BoxCollider").render = true;
     }
 	
     override function update(dt:Float)
@@ -79,11 +79,15 @@ class Player extends Sprite
 
 	public function move(dt:Float) 
 	{
+		// APPLY MOVEMENT
 		var input = LuxeApp._game.input;
 		pos.add(input.multiplyScalar( SPEED * dt));
-		if (input.x < 0)
+
+		// FLIP SPRITE
+		var worldMousePos = Luxe.camera.screen_point_to_world(LuxeApp._game.mousePos);
+		if(worldMousePos.x < pos.x)
 			flipx = true;
-		if (input.x > 0)
+		else
 			flipx = false;
 
 		// ANIMATION EVENTS

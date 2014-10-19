@@ -5,6 +5,8 @@ import luxe.Component;
 import luxe.options.ComponentOptions;
 import luxe.Sprite;
 import luxe.Vector;
+import luxe.Quaternion;
+import phoenix.Texture.FilterType;
 
 /**
  * ...
@@ -16,17 +18,32 @@ class ShootComponent extends Component
 	public var fireRate:Float = 5;
 	public var shooting:Bool = false;
 	var sprite:Sprite;
+	var e:Sprite;
 	var sinceLastShoot:Float = 0;
 	
 	public function new(?_options:ComponentOptions) 
 	{
 		super(_options);
+
+		// Yeah yeah, can probably be in its own component
+		var texture = Luxe.loadTexture('assets/weapon.png');
+		texture.onload = function(f)
+		{
+	        texture.filter = FilterType.nearest;
+
+	        sprite = new Sprite({
+	            texture : texture,
+	            pos : new Vector( Luxe.screen.w/2, Luxe.screen.h/2 ),
+	            origin: new Vector(0, texture.height/2),
+	            depth : 1,
+	        });
+		}
 	}
 	
 	override public function init() 
 	{
 		super.init();
-		sprite = cast entity;
+		e = cast entity;
 	}
 	
 	override public function update(dt:Float) 
@@ -38,11 +55,18 @@ class ShootComponent extends Component
 			fire();
 			sinceLastShoot = 0;
 		}
+
+		if(sprite == null) return;  // Super meh
+		sprite.pos.x = e.pos.x ;
+		sprite.pos.y = e.pos.y;
+
+		var angle = sprite.pos.rotationTo(LuxeApp._game.mousePos);
+		sprite.rotation = new Quaternion().setFromEuler(new Vector(0,0, angle - 90).radians());
 	}
 	
 	private function fire()
 	{
-		new Bullet(sprite.pos.x, sprite.pos.y, direction);
+		new Bullet(e.pos.x, e.pos.y, direction);
 	}
 	
 }
