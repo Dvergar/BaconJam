@@ -207,6 +207,7 @@ class Main extends luxe.Game
 			text: Math.round( 1/Luxe.debug.dt_average) +" | "+ (Luxe.debug.dt_average+"").substr(0,6),
 		});
 		
+        // DISPLAY COLLIDERS
 		#if debug
 		for (collider in colliders)
 		{
