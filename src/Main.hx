@@ -4,6 +4,8 @@ import entities.FallingRock;
 import luxe.collision.ShapeDrawerLuxe;
 import luxe.collision.shapes.Polygon;
 import luxe.collision.shapes.Shape;
+import luxe.Parcel;
+import luxe.ParcelProgress;
 import luxe.Vector;
 import luxe.Input;
 import luxe.Text;
@@ -108,16 +110,39 @@ class BaconMap  // Damn it, can't call it Map or Tilemap
 class Main extends luxe.Game
 {
     public var player:Player;
-	public var input:Vector;
+	public var input:Vector = new Vector();
     public var colliders:Array<Rectangle> = new Array();
     public var enemyColliders:Array<Rectangle> = new Array();
     public var bulletColliders:Array<Rectangle> = new Array();
-	public var mousePos:Vector = new Vector(0,0);
-    var map:BaconMap;
-
+	public var mousePos:Vector = new Vector(0, 0);
+	var loaded:Bool = false;
+    var map:BaconMap;	
+	
     override function ready()
+	{
+           //fetch a list of assets to load from the json file
+        var json_asset = Luxe.loadJSON('assets/parcel.json');
+
+            //then create a parcel to load it for us
+        var preload = new Parcel();
+            preload.from_json(json_asset.json);
+
+            //but, we also want a progress bar for the parcel,
+            //this is a default one, you can do your own
+        new ParcelProgress({
+            parcel      : preload,
+            background  : new Color(1,1,1,0.85),
+            oncomplete  : assets_loaded
+        });
+
+            //go!
+        preload.load();
+
+    } //ready
+	
+    function assets_loaded(_)
     {
-		input = new Vector();
+		loaded = true;
 		player = new Player(Luxe.screen.mid.x, Luxe.screen.mid.y);
         map = new BaconMap();
 		new Enemy(100, 100);
@@ -136,6 +161,7 @@ class Main extends luxe.Game
     var downPressed = false;
     var leftPressed = false;
     var rightPressed = false;
+
 
     override function onkeyup(e:KeyEvent)
     {
@@ -173,6 +199,11 @@ class Main extends luxe.Game
 
     override function update(dt:Float)
     {
+		if (!loaded)
+		{
+			return; //ugly fix
+		}
+		
         // INPUT UPDATE
         input.set_xy(0, 0);
         if(upPressed) input.y-=1;
