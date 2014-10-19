@@ -9,7 +9,8 @@
 		{ "id" : "assets/tileset.png" },
         { "id" : "assets/weapon.png" },
         { "id" : "assets/powerup_crit.png" },
-		{ "id" : "assets/powerup_firerate.png" },
+        { "id" : "assets/powerup_firerate.png" },
+		{ "id" : "assets/healthbar.png" },
     ],
     "fonts" : [
     ],

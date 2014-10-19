@@ -200,6 +200,7 @@ class Main extends luxe.Game
 	public var mousePos:Vector = new Vector(0, 0);
     public var map:BaconMap;
 	public var enemiesKilled:Int = 0;
+    var healthBar2:Sprite;
     var loaded:Bool = false;
 	
 	var healthBar:QuadGeometry;
@@ -258,7 +259,16 @@ class Main extends luxe.Game
 		Luxe.timer.schedule(1, rockFall);
 		Luxe.timer.schedule(1, rockFall);
 		Luxe.timer.schedule(1, rockFall);
-		Luxe.timer.schedule(1, rockFall);	
+		Luxe.timer.schedule(1, rockFall);
+
+        // HEALTHBAR
+        var texture = Luxe.loadTexture('assets/healthbar.png');
+        texture.filter = FilterType.nearest;
+        healthBar2 = new Sprite({
+            texture : texture,
+            pos : new Vector( Luxe.screen.w/2, Luxe.screen.h/2 ),
+            depth : 1,
+        });
 	}
 
     override function onmousemove(e:MouseEvent)
@@ -310,6 +320,11 @@ class Main extends luxe.Game
 		{
 			return; //ugly fix
 		}
+
+        var healthMarginX = 151;
+        var healthMarginY = 12;
+        healthBar2.pos.x = Luxe.camera.pos.x + 300;
+        healthBar2.pos.y = Luxe.camera.pos.y + 30;
 		
 		
 		var healthColor:Color = new Color();
@@ -318,38 +333,39 @@ class Main extends luxe.Game
 		healthColor.b = 0;
 		
 		
-		//healthbar background
-		healthBar = Luxe.draw.box({ 
-			x:Luxe.camera.pos.x + 30,
-			y:Luxe.camera.pos.y + 30,
-			w: 3*Player.MAX_HEALTH,
-			h:30,
-			color: new Color().rgb(0x999999),
-			depth:9,
-			immediate:true
-		});
+
+		// //healthbar background
+		// healthBar = Luxe.draw.box({ 
+		// 	x:Luxe.camera.pos.x + healthMargin,
+		// 	y:Luxe.camera.pos.y + 30,
+		// 	w: 3*Player.MAX_HEALTH,
+		// 	h:30,
+		// 	color: new Color().rgb(0x999999),
+		// 	depth:9,
+		// 	immediate:true
+		// });
 		
 		//healthbar
 		healthBar = Luxe.draw.box({ 
-			x:Luxe.camera.pos.x + 30,
-			y:Luxe.camera.pos.y + 30,
-			w: 3*player.health,
-			h:30,
+			x:Luxe.camera.pos.x + healthMarginX,
+			y:Luxe.camera.pos.y + healthMarginY,
+			w: 2.98*player.health,
+			h:32,
 			color: healthColor,
 			depth:10,
 			immediate:true
 		});
 		
-		//healthbar outline
-		Luxe.draw.rectangle({ 
-			x:Luxe.camera.pos.x + 30,
-			y:Luxe.camera.pos.y + 30,
-			w: 300,
-			h:30,
-			color: new Color().rgb(0xFFFFFF),
-			depth:11,
-			immediate:true
-		});
+		// //healthbar outline
+		// Luxe.draw.rectangle({ 
+		// 	x:Luxe.camera.pos.x + healthMargin,
+		// 	y:Luxe.camera.pos.y + 30,
+		// 	w: 300,
+		// 	h:30,
+		// 	color: new Color().rgb(0xFFFFFF),
+		// 	depth:11,
+		// 	immediate:true
+		// });
 		
         // INPUT UPDATE
         input.set_xy(0, 0);
