@@ -28,10 +28,8 @@ class BoxCollider extends Component
 	
 	public var x(get, null):Float;
 	public var y(get, null):Float;
-	@:isVar
-	public var width(default, set):Float;
-	@:isVar
-	public var height(default, set):Float;
+	@:isVar public var width(default, set):Float;
+	@:isVar public var height(default, set):Float;
 
 	public function new(width:Float=100, height:Float=100, centered:Bool=false) 
 	{
@@ -96,18 +94,16 @@ class BoxCollider extends Component
 	
 	public function set_width(newWidth:Float):Float
 	{
-		width = newWidth;
 		if(collisionBox!=null)
 			collisionBox.w = newWidth;
-		return newWidth;
+		return width = newWidth;
 	}
 	
 	public function set_height(newHeight:Float):Float
 	{
-		height = newHeight;
 		if(collisionBox!=null)
 			collisionBox.h = newHeight;
-		return newHeight;
+		return height = newHeight;
 	}
 
 	public function get_x():Float
