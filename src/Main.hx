@@ -329,8 +329,8 @@ class Main extends luxe.Game
 		
 		
 		var healthColor:Color = new Color();
-		healthColor.r = 1 - (player.health / Player.MAX_HEALTH);
-		healthColor.g = (player.health / Player.MAX_HEALTH);
+		healthColor.r = (1 - (player.health / Player.MAX_HEALTH) / 1.5);
+		healthColor.g = ((player.health / Player.MAX_HEALTH) / 1.5);
 		healthColor.b = 0;
 		
 		
