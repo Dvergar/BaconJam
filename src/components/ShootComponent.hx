@@ -69,12 +69,15 @@ class ShootComponent extends Component
 		if (Std.random(100) < crit)
 		{
 			trace("CRIT!!");
-			new Bullet(e.pos.x, e.pos.y, direction);
-			new Bullet(e.pos.x, e.pos.y, direction);
-			new Bullet(e.pos.x, e.pos.y, direction);
+			new Bullet(e.pos.x, e.pos.y, direction.clone()
+				.applyQuaternion(new Quaternion().setFromAxisAngle(new Vector(0, 0, 1),0.017*Std.random(10))));
+			new Bullet(e.pos.x, e.pos.y, direction.clone());
+			new Bullet(e.pos.x, e.pos.y, direction.clone()
+				.applyQuaternion(new Quaternion().setFromAxisAngle(new Vector(0, 0, 1),-0.017*Std.random(10))));
 		}else
 		{
-			new Bullet(e.pos.x, e.pos.y, direction);
+			new Bullet(e.pos.x, e.pos.y, direction.clone()
+				.applyQuaternion(new Quaternion().setFromAxisAngle(new Vector(0, 0, 1),-0.017*(Std.random(10)-5))));
 		}
 		
 		Luxe.camera.shake(3, true);
