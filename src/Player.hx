@@ -104,6 +104,15 @@ class Player extends Sprite
 		else
 			if(anim.animation == 'idle')
 				anim.animation = 'walk';
+
+		var camx = pos.x - Luxe.screen.w / 2;
+		var camy = pos.y - Luxe.screen.h / 2;
+
+		var dx = camx - Luxe.camera.pos.x;
+		var dy = camy - Luxe.camera.pos.y;
+
+		Luxe.camera.pos.x += Std.int(dx * 0.3);
+		Luxe.camera.pos.y += Std.int(dy * 0.3);
 	}
 	
 	public function hurt(damage:Int)

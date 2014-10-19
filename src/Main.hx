@@ -359,9 +359,10 @@ class Main extends luxe.Game
 
         // LINE OF SIGHT
         var width = 16;
-        var angle = mousePos.rotationTo(player.pos);
-        var distance = Math.sqrt(Math.pow((mousePos.x - player.pos.x), 2)
-                               + Math.pow((mousePos.y - player.pos.y), 2));
+        var worldMousePos = Luxe.camera.screen_point_to_world(mousePos);
+        var angle = mousePos.rotationTo(Luxe.screen.mid);
+        var distance = Math.sqrt(Math.pow((Luxe.screen.mid.x - mousePos.x), 2)
+                               + Math.pow((Luxe.screen.mid.y - mousePos.y), 2));
 
         Luxe.draw.box({
             x: player.pos.x, y: player.pos.y,
