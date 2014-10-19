@@ -15,7 +15,7 @@ import phoenix.Texture.FilterType;
 class ShootComponent extends Component
 {
 	public var direction:Vector;
-	public var fireRate:Float = 5;
+	public var fireRate:Float = 1;
 	public var shooting:Bool = false;
 	var sprite:Sprite;
 	var e:Sprite;

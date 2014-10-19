@@ -16,9 +16,10 @@ import phoenix.Texture.FilterType;
 class Player extends Sprite
 {
 	public static var MAX_HEALTH:Int = 100;
-	public var health:Float=100;
+	public var health:Float = 100;
+	public var crit:Float = 1;
     static inline var SPEED:Int = 350;
-	var fireComponent:ShootComponent;
+	public var fireComponent:ShootComponent;
 	var anim:SpriteAnimation;
 
     public function new(x:Float, y:Float)
@@ -67,7 +68,7 @@ class Player extends Sprite
         Luxe.events.listen('update', update);
 		
 		fireComponent = new ShootComponent();
-		fireComponent.fireRate = 30;
+		fireComponent.fireRate = 5;
 		add(fireComponent);
 		
 		add(new BoxCollider(PLAYER, 50, 50, [LuxeApp._game.colliders], true));

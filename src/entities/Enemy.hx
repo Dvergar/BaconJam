@@ -103,6 +103,7 @@ class Enemy extends Sprite
 	{
 		destroy();
 		LuxeApp._game.enemiesKilled++;
+		new PowerUp(pos.x,pos.y);
 	}
 	
 	// public function collideWith(colliders:Colliders):Bool
