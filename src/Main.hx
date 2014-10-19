@@ -194,7 +194,9 @@ class Main extends luxe.Game
             for(posy in 0...map.TILES_HIGH)
                 if(map.collisionMap[posx][posy])
                     colliders.push(new Rectangle(posx * BaconMap.TILESIZE, posy * BaconMap.TILESIZE, BaconMap.TILESIZE, BaconMap.TILESIZE));
-    }
+		
+		Luxe.timer.schedule(5, rockFall);
+	}
 
     override function onmousemove(e:MouseEvent)
 		mousePos = e.pos.clone();
@@ -220,7 +222,7 @@ class Main extends luxe.Game
             rightPressed = false;
 			
 		if (e.keycode == Key.space)
-			rockFall(player.pos.x, player.pos.y);
+			rockFall();
 
     }
 
@@ -342,9 +344,16 @@ class Main extends luxe.Game
 	
     // Most useless function i've ever seen in my entire life!
 	// I was thinking of adding the shadown here, but in the end i added it inside the FallingRock class
-	public function rockFall(x:Float,y:Float)
+	public function rockFall()
 	{
-		new FallingRock(x, y);
+		var x:Int;
+		var y:Int;
+		do {
+			x = Std.random(map.TILES_WIDE);
+			y = Std.random(map.TILES_HIGH);
+		}while (map.collisionMap[x][y]);
+		new FallingRock((x+0.5)*BaconMap.TILESIZE, (y+0.5)*BaconMap.TILESIZE);
 		//player.hurt(10);
+		Luxe.timer.schedule(Math.random() * 3, rockFall);
 	}
 }
