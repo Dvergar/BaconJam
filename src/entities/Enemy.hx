@@ -32,7 +32,7 @@ class Enemy extends Sprite
         super({
             texture: texture,
             pos: new Vector(x+25, y+30),
-            depth: 1,
+            depth: 3,
             //origin: new Vector(0, 0),
 			size : new Vector(64, 64),
         });
@@ -59,7 +59,7 @@ class Enemy extends Sprite
 	        anim.play();
     	}
 
-		collider = new BoxCollider(ENEMY, 50, 60, [LuxeApp._game.colliders], true);
+		collider = new BoxCollider(ENEMY, 45, 55, [LuxeApp._game.colliders], true);
 		add(collider);
 		// collider = box.collisionBox;
 		LuxeApp._game.enemyColliders.push(collider.rectangle);

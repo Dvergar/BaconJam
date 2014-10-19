@@ -243,7 +243,7 @@ class Main extends luxe.Game
             Luxe.timer.schedule(2, spawnMob);
         }
 
-        spawnMob();
+        //spawnMob();
 
         // PUSH COLLIDERS FROM COLLISION MAP
         for(posx in 0...map.TILES_WIDE)
@@ -255,8 +255,16 @@ class Main extends luxe.Game
                                                             BaconMap.TILESIZE));
 		
 		
-		Luxe.timer.schedule(5, rockFall);
-		Luxe.timer.schedule(5+Math.random()*5, rockFall);
+		Luxe.timer.schedule(1, rockFall);
+		Luxe.timer.schedule(3 + Math.random(), rockFall);
+		Luxe.timer.schedule(6 + Math.random(), rockFall);
+		Luxe.timer.schedule(30 + Math.random(), rockFall);
+		Luxe.timer.schedule(60 + Math.random(), rockFall);
+		Luxe.timer.schedule(100 + Math.random(), rockFall);
+		Luxe.timer.schedule(130 + Math.random(), rockFall);
+		Luxe.timer.schedule(160 + Math.random(), rockFall);
+		Luxe.timer.schedule(190 + Math.random(), rockFall);
+		
 	}
 
     override function onmousemove(e:MouseEvent)
