@@ -15,7 +15,7 @@ import phoenix.Texture.FilterType;
  */
 class Player extends Sprite
 {
-	static var MAX_HEALTH:Int = 100;
+	public static var MAX_HEALTH:Int = 100;
 	public var health:Float=100;
     static inline var SPEED:Int = 350;
 	var fireComponent:ShootComponent;

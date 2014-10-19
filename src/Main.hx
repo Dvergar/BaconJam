@@ -249,12 +249,18 @@ class Main extends luxe.Game
 			return; //ugly fix
 		}
 		
+		
+		var healthColor:Color = new Color();
+		healthColor.r = 1 - (player.health / Player.MAX_HEALTH);
+		healthColor.g = (player.health / Player.MAX_HEALTH);
+		healthColor.b = 0;
+		
 		healthBar = Luxe.draw.box({ 
 			x:30,
 			y:30,
 			w: 3*player.health,
 			h:30,
-			color: new Color().rgb(0xFF00FF00),
+			color: healthColor,
 			depth:10,
 			immediate:true
 		});
