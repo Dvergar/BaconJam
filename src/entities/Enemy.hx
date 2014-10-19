@@ -33,7 +33,6 @@ class Enemy extends Sprite
 		var box = new BoxCollider(50, 60, true);
 		add(box);
 		collider = box.collisionBox;
-		//collider = new Rectangle(x, y, 50, 60);
 		LuxeApp._game.enemyColliders.push(collider);
 	}
 	
