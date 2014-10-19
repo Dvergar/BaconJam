@@ -223,6 +223,16 @@ class Main extends luxe.Game
 			immediate:true
 		});
 		
+		Luxe.draw.rectangle({ 
+			x:30,
+			y:30,
+			w: 300,
+			h:30,
+			color: new Color().rgb(0xFF00EE00),
+			depth:11,
+			immediate:true
+		});
+		
         // INPUT UPDATE
         input.set_xy(0, 0);
         if(upPressed) input.y-=1;
