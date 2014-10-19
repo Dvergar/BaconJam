@@ -144,6 +144,7 @@ class Main extends luxe.Game
     public var bulletColliders:Array<Rectangle> = new Array();
 	public var mousePos:Vector = new Vector(0, 0);
     public var map:BaconMap;
+	public var enemiesKilled:Int = 0;
     var loaded:Bool = false;
 	
 	var healthBar:QuadGeometry;
@@ -194,6 +195,7 @@ class Main extends luxe.Game
             for(posy in 0...map.TILES_HIGH)
                 if(map.collisionMap[posx][posy])
                     colliders.push(new Rectangle(posx * BaconMap.TILESIZE, posy * BaconMap.TILESIZE, BaconMap.TILESIZE, BaconMap.TILESIZE));
+		
 		
 		Luxe.timer.schedule(5, rockFall);
 		Luxe.timer.schedule(5+Math.random()*5, rockFall);
@@ -347,6 +349,11 @@ class Main extends luxe.Game
         }
 		#end
 		
+		Luxe.draw.text( {
+			immediate: true,
+			pos: new Vector(Luxe.screen.mid.x,30),
+			text: "Enemies killed: " + enemiesKilled,
+		});
     }
 	
     // Most useless function i've ever seen in my entire life!

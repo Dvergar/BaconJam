@@ -96,7 +96,7 @@ class Enemy extends Sprite
 	function die() 
 	{
 		destroy();
-		trace("die");
+		LuxeApp._game.enemiesKilled++;
 	}
 	
 	public function collideWith(colliders:Array<Rectangle>):Bool
