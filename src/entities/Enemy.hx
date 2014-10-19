@@ -9,6 +9,7 @@ import luxe.Sprite;
 import luxe.Vector;
 import luxe.Rectangle;
 import phoenix.Texture.FilterType;
+import luxe.components.sprite.SpriteAnimation;
 
 /**
  * ...
@@ -21,14 +22,38 @@ class Enemy extends Sprite
 
 	public function new(x:Float, y:Float)
 	{
-		var texture = Luxe.loadTexture('assets/enemy.png');
+        var texture = Luxe.loadTexture('assets/enemy.png');
         texture.filter = FilterType.nearest;
-		
+
         super({
-            texture : texture,
-            pos : new Vector(x, y),
-			depth: 1
+            texture: texture,
+            pos: new Vector(x, y),
+            depth: 1,
+			size : new Vector(64, 64),
         });
+
+        texture.onload = function(t)
+        {
+	        var anim = new SpriteAnimation({ name:'anim' });
+	        add(anim);
+
+	        var animation_json = '
+	            {
+	                "walk" : {
+	                    "frame_size":{ "x":"64", "y":"64" },
+	                    "frameset": ["1-3"],
+	                    "pingpong":"false",
+	                    "loop": "true",
+	                    "speed": "18"
+	                },
+	            }
+	        ';
+
+	        anim.add_from_json( animation_json );
+	        anim.animation = 'walk';
+	        anim.play();
+    	}
+
 		var box = new BoxCollider(50, 60, [LuxeApp._game.colliders], true);
 		add(box);
 		collider = box.collisionBox;

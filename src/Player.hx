@@ -25,6 +25,7 @@ class Player extends Sprite
         var texture = Luxe.loadTexture('assets/player.png');
         texture.filter = FilterType.nearest;
 
+        // SPRITE
         super({
             texture: texture,
             pos: new Vector(x, y),
