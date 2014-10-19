@@ -17,6 +17,8 @@ class Bullet extends Sprite
 	
     public function new(x:Float, y:Float,direction:Vector)
     {
+		collider = new BoxCollider(2, 2, true);
+		
         this.direction = direction.normalized;
 
 		var texture = Luxe.loadTexture('assets/bullet.png');
@@ -26,11 +28,13 @@ class Bullet extends Sprite
             pos: new Vector(x, y),
             depth: 1,
         });
-
+		
         texture.onload = function(f)
         {
         	origin = new Vector(texture.width/2, texture.height/2);
-			collider = new BoxCollider(texture.width, texture.height, true);
+			
+			collider.collisionBox.w = texture.width;
+			collider.collisionBox.h = texture.height;
         }
 		
 		this.rotation.setFromAxisAngle(new Vector(0, 0, 1),
