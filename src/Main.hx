@@ -257,6 +257,19 @@ class Main extends luxe.Game
 		healthColor.g = (player.health / Player.MAX_HEALTH);
 		healthColor.b = 0;
 		
+		
+		//healthbar background
+		healthBar = Luxe.draw.box({ 
+			x:30,
+			y:30,
+			w: 3*Player.MAX_HEALTH,
+			h:30,
+			color: new Color().rgb(0x999999),
+			depth:9,
+			immediate:true
+		});
+		
+		//healthbar
 		healthBar = Luxe.draw.box({ 
 			x:30,
 			y:30,
@@ -267,6 +280,7 @@ class Main extends luxe.Game
 			immediate:true
 		});
 		
+		//healthbar outline
 		Luxe.draw.rectangle({ 
 			x:30,
 			y:30,
