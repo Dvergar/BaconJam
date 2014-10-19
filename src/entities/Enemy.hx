@@ -18,6 +18,7 @@ import luxe.components.sprite.SpriteAnimation;
 class Enemy extends Sprite
 {
 	var collider:Rectangle;
+	var box:BoxCollider;
 	var health:Int = 45;
 
 	public function new(x:Float, y:Float)
@@ -29,6 +30,7 @@ class Enemy extends Sprite
             texture: texture,
             pos: new Vector(x, y),
             depth: 1,
+            origin: new Vector(0, 0),
 			size : new Vector(64, 64),
         });
 
@@ -54,7 +56,7 @@ class Enemy extends Sprite
 	        anim.play();
     	}
 
-		var box = new BoxCollider(50, 60, [LuxeApp._game.colliders], true);
+		box = new BoxCollider(50, 60, [LuxeApp._game.colliders], false);
 		add(box);
 		collider = box.collisionBox;
 		LuxeApp._game.enemyColliders.push(collider);
@@ -68,6 +70,7 @@ class Enemy extends Sprite
 		pos.add(direction.multiplyScalar(100 * dt));
 		
 		var bulletCollision = collideWith(LuxeApp._game.bulletColliders);
+
 		if (bulletCollision)
 			health -= 15;
 		
