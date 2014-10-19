@@ -199,6 +199,7 @@ class Main extends luxe.Game
     public var bulletColliders = new Colliders(BULLET);
 	public var mousePos:Vector = new Vector(0, 0);
     public var map:BaconMap;
+	public var enemiesKilled:Int = 0;
     var loaded:Bool = false;
 	
 	var healthBar:QuadGeometry;
@@ -252,7 +253,11 @@ class Main extends luxe.Game
                                                             posy * BaconMap.TILESIZE,
                                                             BaconMap.TILESIZE,
                                                             BaconMap.TILESIZE));
-    }
+		
+		
+		Luxe.timer.schedule(5, rockFall);
+		Luxe.timer.schedule(5+Math.random()*5, rockFall);
+	}
 
     override function onmousemove(e:MouseEvent)
 		mousePos = e.pos.clone();
@@ -278,7 +283,7 @@ class Main extends luxe.Game
             rightPressed = false;
 			
 		if (e.keycode == Key.space)
-			rockFall(player.pos.x, player.pos.y);
+			rockFall();
 
     }
 
@@ -304,13 +309,29 @@ class Main extends luxe.Game
 			return; //ugly fix
 		}
 		
+		
+		var healthColor:Color = new Color();
+		healthColor.r = 1 - (player.health / Player.MAX_HEALTH);
+		healthColor.g = (player.health / Player.MAX_HEALTH);
+		healthColor.b = 0;
+		
 		healthBar = Luxe.draw.box({ 
 			x:30,
 			y:30,
 			w: 3*player.health,
 			h:30,
-			color: new Color().rgb(0xFF00FF00),
+			color: healthColor,
 			depth:10,
+			immediate:true
+		});
+		
+		Luxe.draw.rectangle({ 
+			x:30,
+			y:30,
+			w: 300,
+			h:30,
+			color: new Color().rgb(0xFFFFFF),
+			depth:11,
 			immediate:true
 		});
 		
@@ -386,13 +407,25 @@ class Main extends luxe.Game
         }
 		#end
 		
+		Luxe.draw.text( {
+			immediate: true,
+			pos: new Vector(Luxe.screen.mid.x,30),
+			text: "Enemies killed: " + enemiesKilled,
+		});
     }
 	
     // Most useless function i've ever seen in my entire life!
 	// I was thinking of adding the shadown here, but in the end i added it inside the FallingRock class
-	public function rockFall(x:Float,y:Float)
+	public function rockFall()
 	{
-		new FallingRock(x, y);
+		var x:Int;
+		var y:Int;
+		do {
+			x = Std.random(map.TILES_WIDE);
+			y = Std.random(map.TILES_HIGH);
+		}while (map.collisionMap[x][y]);
+		new FallingRock((x+0.5)*BaconMap.TILESIZE, (y+0.5)*BaconMap.TILESIZE);
 		//player.hurt(10);
+		Luxe.timer.schedule(3+Math.random() * 3, rockFall);
 	}
 }

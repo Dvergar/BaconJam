@@ -31,9 +31,9 @@ class Enemy extends Sprite
 
         super({
             texture: texture,
-            pos: new Vector(x, y),
+            pos: new Vector(x+25, y+30),
             depth: 1,
-            origin: new Vector(0, 0),
+            //origin: new Vector(0, 0),
 			size : new Vector(64, 64),
         });
 
@@ -59,7 +59,7 @@ class Enemy extends Sprite
 	        anim.play();
     	}
 
-		collider = new BoxCollider(ENEMY, 50, 60, [LuxeApp._game.colliders], false);
+		collider = new BoxCollider(ENEMY, 50, 60, [LuxeApp._game.colliders], true);
 		add(collider);
 		// collider = box.collisionBox;
 		LuxeApp._game.enemyColliders.push(collider.rectangle);
@@ -101,7 +101,7 @@ class Enemy extends Sprite
 	function die() 
 	{
 		destroy();
-		trace("die");
+		LuxeApp._game.enemiesKilled++;
 	}
 	
 	// public function collideWith(colliders:Colliders):Bool
