@@ -424,7 +424,7 @@ class Main extends luxe.Game
 		Luxe.draw.text( {
 			immediate: true,
 			pos: new Vector(Luxe.screen.mid.x,30),
-			text: "Enemies killed: " + enemiesKilled,
+			text: "Remaining enemies: " + (1000000-enemiesKilled),
 		});
     }
 	
