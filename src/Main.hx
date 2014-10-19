@@ -19,10 +19,12 @@ import phoenix.Texture.FilterType;
 import phoenix.geometry.QuadGeometry;
 
 
+typedef Tile = {x:Int, y:Int};
 class BaconMap  // Damn it, can't call it Map or Tilemap
 {
     public static inline var TILESIZE = 64;
     public var collisionMap:Array<Array<Bool>>;
+    public var nestMap:Array<Tile>;
     public var TILES_HIGH:Int;
     public var TILES_WIDE:Int;
     var tiles:Tilemap;
@@ -34,10 +36,11 @@ class BaconMap  // Damn it, can't call it Map or Tilemap
         TILES_HIGH = map.tileshigh;
         TILES_WIDE = map.tileswide;
 
-        tiles = parseMap({data:map, skip: ["char"]});
+        tiles = parseMap({data:map, skip: ["char", "nests"]});
         tiles.layers.get("shadows").opacity = 0.1;
         tiles.display({});
         collisionMap = getMapFrom(map, "collisionmap");
+        nestMap = getArrayFrom(map, "nests");
     }
 
     function parseMap(args:{data:Dynamic, skip:Array<String>})
@@ -78,14 +81,14 @@ class BaconMap  // Damn it, can't call it Map or Tilemap
     function getMapFrom(map:Dynamic, layerName:String)
     {
         // DEFAULT THE COLLISIONMAP
-        var collisionMap = new Array();
+        var daMap = new Array();
         for(posx in 0...TILES_WIDE)
         {
             var col = new Array();
             for(posy in 0...TILES_HIGH)
                 col.push(false);
 
-            collisionMap.push(col);
+            daMap.push(col);
         }
 
         // APPLY REAL DATA
@@ -97,12 +100,37 @@ class BaconMap  // Damn it, can't call it Map or Tilemap
                 var tiles:Array<Dynamic> = layer.tiles;
                 for(tile in tiles)
                     if(tile.tile != -1) 
-                        collisionMap[tile.x][tile.y] = true;
+                        daMap[tile.x][tile.y] = true;
                 break;
             }
         }
 
-        return collisionMap;
+        return daMap;
+    }
+
+    function getArrayFrom(map:Dynamic, layerName:String)
+    {
+        // DEFAULT THE COLLISIONMAP
+        var array = new Array();
+
+        // APPLY REAL DATA
+        var layers:Array<Dynamic> = map.layers;
+        for(layer in layers)
+        {
+            if(layer.name == layerName)
+            {
+                var tiles:Array<Dynamic> = layer.tiles;
+                for(tile in tiles)
+                    if(tile.tile != -1)
+                    {
+                        var daTile:Tile = {x:tile.x, y:tile.y};
+                        array.push(daTile);
+                    }
+                break;
+            }
+        }
+
+        return array;
     }
 }
 
@@ -115,8 +143,8 @@ class Main extends luxe.Game
     public var enemyColliders:Array<Rectangle> = new Array();
     public var bulletColliders:Array<Rectangle> = new Array();
 	public var mousePos:Vector = new Vector(0, 0);
-	var loaded:Bool = false;
-    var map:BaconMap;
+    public var map:BaconMap;
+    var loaded:Bool = false;
 	
 	var healthBar:QuadGeometry;
 	
@@ -150,7 +178,12 @@ class Main extends luxe.Game
 
         function spawnMob()
         {
-            new Enemy(100, 100);
+            var index = Std.random(map.nestMap.length);
+            var enemyPos = map.nestMap[index];
+
+            new Enemy(enemyPos.x * BaconMap.TILESIZE,
+                      enemyPos.y * BaconMap.TILESIZE);
+            
             Luxe.timer.schedule(2, spawnMob);
         }
 
