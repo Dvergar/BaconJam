@@ -20,8 +20,6 @@ import luxe.Rectangle;
  */
 class BoxCollider extends Component
 {
-	var _width:Float;
-	var _height:Float;
 	var sprite:Sprite;
 	var centered:Bool;
 	public var render:Bool = false;
@@ -30,15 +28,17 @@ class BoxCollider extends Component
 	
 	public var x(get, null):Float;
 	public var y(get, null):Float;
-	public var width(null, set):Float;
-	public var height(null, set):Float;
+	@:isVar
+	public var width(default, set):Float;
+	@:isVar
+	public var height(default, set):Float;
 
 	public function new(width:Float=100, height:Float=100, centered:Bool=false) 
 	{
 		super( { name:"BoxCollider" } );
 		this.centered = centered;
-		this._height = height;
-		this._width = width;
+		this.height = height;
+		this.width = width;
 		collisionBox = new Rectangle(0, 0, width, height);
 	}
 	
@@ -47,8 +47,8 @@ class BoxCollider extends Component
 		super.init();
 		sprite = cast entity;
 
-		collisionBox.x = sprite.pos.x + (centered ? -_width/2 : 0);
-		collisionBox.y = sprite.pos.y + (centered ? -_width / 2 : 0);
+		collisionBox.x = sprite.pos.x + (centered ? -width/2 : 0);
+		collisionBox.y = sprite.pos.y + (centered ? -width / 2 : 0);
 	}
 	
 	override public function update(dt:Float) 
@@ -60,7 +60,7 @@ class BoxCollider extends Component
 		var oldCollisionBox = collisionBox.clone();
 
 		// MOVE Y AND CORRECT IF COLLISION
-		collisionBox.y = sprite.pos.y + (centered ? -_width / 2 : 0);
+		collisionBox.y = sprite.pos.y + (centered ? -width / 2 : 0);
 		for(collider in LuxeApp._game.colliders)
 			if(collider.overlaps(collisionBox))
 			{
@@ -69,7 +69,7 @@ class BoxCollider extends Component
 			}
 
 		// MOVE X AND CORREF IF COLLISION
-		collisionBox.x = sprite.pos.x + (centered ? -_width / 2 : 0);
+		collisionBox.x = sprite.pos.x + (centered ? -width / 2 : 0);
 		for(collider in LuxeApp._game.colliders)
 			if(collider.overlaps(collisionBox))
 			{
@@ -78,14 +78,14 @@ class BoxCollider extends Component
 			}
 
 		// REFLECT TO SPRITE
-		sprite.pos.x = collisionBox.x - (centered ? -_width / 2 : 0);
-		sprite.pos.y = collisionBox.y - (centered ? -_width / 2 : 0);
+		sprite.pos.x = collisionBox.x - (centered ? -width / 2 : 0);
+		sprite.pos.y = collisionBox.y - (centered ? -width / 2 : 0);
 
 		if (render)
 		{
             Luxe.draw.rectangle({
                 x: x, y : y,
-                w: _width,
+                w: width,
                 h: height,
                 color: new Color().rgb(collides ? 0xFF0000 : 0x737178),
                 immediate: true,
@@ -96,15 +96,17 @@ class BoxCollider extends Component
 	
 	public function set_width(newWidth:Float):Float
 	{
-		_width = newWidth;
-		collisionBox.w = newWidth;
+		width = newWidth;
+		if(collisionBox!=null)
+			collisionBox.w = newWidth;
 		return newWidth;
 	}
 	
 	public function set_height(newHeight:Float):Float
 	{
-		_height = newHeight;
-		collisionBox.h = newHeight;
+		height = newHeight;
+		if(collisionBox!=null)
+			collisionBox.h = newHeight;
 		return newHeight;
 	}
 
