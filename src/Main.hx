@@ -16,6 +16,7 @@ import luxe.tilemaps.Tilemap;
 import luxe.importers.tiled.TiledMap;
 import luxe.Quaternion;
 import phoenix.Texture.FilterType;
+import phoenix.BitmapFont;
 import phoenix.geometry.QuadGeometry;
 import entities.Bullet;
 
@@ -202,11 +203,14 @@ class Main extends luxe.Game
 	public var enemiesKilled:Int = 0;
     var healthBar2:Sprite;
     var loaded:Bool = false;
+    var font:BitmapFont;
 	
 	var healthBar:QuadGeometry;
 	
     override function ready()
 	{
+        font = Luxe.loadFont('font.fnt', 'assets/' );
+
            //fetch a list of assets to load from the json file
         var json_asset = Luxe.loadJSON('assets/parcel.json');
 
@@ -443,6 +447,8 @@ class Main extends luxe.Game
 		
 		Luxe.draw.text( {
 			immediate: true,
+            font: font,
+            depth:5,
             pos: new Vector(Luxe.camera.pos.x + Luxe.screen.mid.x,
                             Luxe.camera.pos.y + 30),
 			text: "Remaining enemies: " + (1000000-enemiesKilled),
