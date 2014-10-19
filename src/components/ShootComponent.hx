@@ -17,6 +17,7 @@ class ShootComponent extends Component
 	public var direction:Vector;
 	public var fireRate:Float = 1;
 	public var shooting:Bool = false;
+	public var crit:Float = 1;
 	var sprite:Sprite;
 	var e:Sprite;
 	var sinceLastShoot:Float = 0;
@@ -65,7 +66,17 @@ class ShootComponent extends Component
 	
 	private function fire()
 	{
-		new Bullet(e.pos.x, e.pos.y, direction);
+		if (Std.random(100) < crit)
+		{
+			trace("CRIT!!");
+			new Bullet(e.pos.x, e.pos.y, direction);
+			new Bullet(e.pos.x, e.pos.y, direction);
+			new Bullet(e.pos.x, e.pos.y, direction);
+		}else
+		{
+			new Bullet(e.pos.x, e.pos.y, direction);
+		}
+		
 		Luxe.camera.shake(3, true);
 	}
 	

@@ -17,7 +17,6 @@ class Player extends Sprite
 {
 	public static var MAX_HEALTH:Int = 100;
 	public var health:Float = 100;
-	public var crit:Float = 1;
     static inline var SPEED:Int = 350;
 	public var fireComponent:ShootComponent;
 	var anim:SpriteAnimation;
