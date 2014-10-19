@@ -44,9 +44,6 @@ class Enemy extends Sprite
 		var direction = LuxeApp._game.player.pos.clone().subtract(pos).normalize();
 		pos.add(direction.multiplyScalar(100 * dt));
 		
-		collider.x = pos.x;
-		collider.y = pos.y;
-		
 		var bulletCollision = collideWith(LuxeApp._game.bulletColliders);
 		if (bulletCollision)
 			health -= 5;

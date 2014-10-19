@@ -46,7 +46,9 @@ class BoxCollider extends Component
 		sprite = cast entity;
 
 		collisionBox.x = sprite.pos.x + (centered ? -width/2 : 0);
-		collisionBox.y = sprite.pos.y + (centered ? -width / 2 : 0);
+		collisionBox.y = sprite.pos.y + (centered ? -width/2 : 0);
+
+		trace("colbox " + collisionBox.x + " / " + collisionBox.y);
 	}
 	
 	override public function update(dt:Float) 
