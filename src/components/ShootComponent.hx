@@ -59,7 +59,7 @@ class ShootComponent extends Component
 		sprite.pos.x = e.pos.x ;
 		sprite.pos.y = e.pos.y;
 
-		var angle = sprite.pos.rotationTo(LuxeApp._game.mousePos);
+		var angle = Luxe.screen.mid.rotationTo(LuxeApp._game.mousePos);
 		sprite.rotation = new Quaternion().setFromEuler(new Vector(0,0, angle - 90).radians());
 	}
 	
