@@ -67,6 +67,7 @@ class ShootComponent extends Component
 	private function fire()
 	{
 		new Bullet(e.pos.x, e.pos.y, direction);
+		Luxe.camera.shake(3);
 	}
 	
 }
