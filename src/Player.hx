@@ -105,7 +105,7 @@ class Player extends Sprite
 	public function hurt(damage:Int)
 	{
 		health -= damage;
-		Actuate.tween(color, 1, { r:1, g:0, b:0 } ).reverse();
+		Actuate.tween(color, 1, { r:1, g:0, b:0 } ).onComplete(function() { Actuate.tween(color, 1, { r:1, g:1, b:1 } ); } );
 		if (health <= 0)
 		{
 			health = 0;
