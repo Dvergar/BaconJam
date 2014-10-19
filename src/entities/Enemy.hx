@@ -19,6 +19,8 @@ class Enemy extends Sprite
 {
 	var collider:Rectangle;
 	var health:Int = 45;
+	public var attackEvery:Float = 1.5;
+	var sinceLastAttack:Float = 1;
 
 	public function new(x:Float, y:Float)
 	{
@@ -63,6 +65,7 @@ class Enemy extends Sprite
 	override public function update(dt:Float) 
 	{
 		super.update(dt);
+		sinceLastAttack += dt;
 		
 		var direction = LuxeApp._game.player.pos.clone().subtract(pos).normalize();
 		pos.add(direction.multiplyScalar(100 * dt));
@@ -73,6 +76,12 @@ class Enemy extends Sprite
 		
 		if (health <= 0)
 			die();
+		
+		if (sinceLastAttack > attackEvery && Vector.Subtract(pos, LuxeApp._game.player.pos).length < 25)
+		{
+			LuxeApp._game.player.hurt(5);
+			sinceLastAttack = 0;
+		}
 	}
 	
 	override function ondestroy() 
