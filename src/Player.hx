@@ -15,7 +15,8 @@ import phoenix.Texture.FilterType;
  */
 class Player extends Sprite
 {
-	public var health:Int=100;
+	static var MAX_HEALTH:Int = 100;
+	public var health:Float=100;
     static inline var SPEED:Int = 350;
 	var fireComponent:ShootComponent;
 	var anim:SpriteAnimation;
@@ -77,7 +78,10 @@ class Player extends Sprite
     {
 		move(dt);  // Why a function there? :(((
 		fireComponent.shooting = Luxe.input.mousedown(1);
-		fireComponent.direction = Vector.Subtract(LuxeApp._game.mousePos,pos).normalized;
+		fireComponent.direction = Vector.Subtract(LuxeApp._game.mousePos, pos).normalized;
+		health += dt;
+		if (health > MAX_HEALTH)
+			health = MAX_HEALTH;
     }
 
 	public function move(dt:Float) 
