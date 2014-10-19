@@ -145,7 +145,14 @@ class Main extends luxe.Game
 		loaded = true;
 		player = new Player(Luxe.screen.mid.x, Luxe.screen.mid.y);
         map = new BaconMap();
-		new Enemy(100, 100);
+
+        function spawnMob()
+        {
+            new Enemy(100, 100);
+            Luxe.timer.schedule(2, spawnMob);
+        }
+
+        spawnMob();
 
         // PUSH COLLIDERS FROM COLLISION MAP
         for(posx in 0...map.TILES_WIDE)
