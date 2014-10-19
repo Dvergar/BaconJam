@@ -46,7 +46,7 @@ class PowerUp extends Sprite
 			switch (kind)
 			{
 				case Crit:
-					LuxeApp._game.player.crit+=1;
+					LuxeApp._game.player.fireComponent.crit++;
 				case FireRate:
 					LuxeApp._game.player.fireComponent.fireRate++;
 			}
