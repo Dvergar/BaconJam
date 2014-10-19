@@ -236,6 +236,7 @@ class Main extends luxe.Game
 		
     }
 	
+    // Most useless function i've ever seen in my entire life!
 	public function rockFall(x:Float,y:Float)
 	{
 		shit.push(new FallingRock(x, y));
