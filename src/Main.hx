@@ -258,8 +258,9 @@ class Main extends luxe.Game
 		
 		Luxe.timer.schedule(1, rockFall);
 		Luxe.timer.schedule(1, rockFall);
+		Luxe.timer.schedule(1, rockFall);	
 		Luxe.timer.schedule(1, rockFall);
-		Luxe.timer.schedule(1, rockFall);
+		Luxe.timer.schedule(60, rockFall);
 
         // HEALTHBAR
         var texture = Luxe.loadTexture('assets/healthbar.png');
@@ -397,7 +398,7 @@ class Main extends luxe.Game
 		// DISPLAY FPS
 		Luxe.draw.text( {
 			immediate: true,
-			pos: new Vector(0,Luxe.screen.h-30),
+			pos: new Vector(Luxe.camera.pos.x,Luxe.camera.pos.y+Luxe.screen.h-30),
 			text: Math.round( 1/Luxe.debug.dt_average) +" | "+ (Luxe.debug.dt_average+"").substr(0,6),
 		});
 		
