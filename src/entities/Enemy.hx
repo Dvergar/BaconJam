@@ -75,7 +75,7 @@ class Enemy extends Sprite
 		
 		// var bulletCollision = collideWith(LuxeApp._game.bulletColliders);
 		var bulletCollision = Lambda.has(collider.rectangle.collisionTypes, BULLET);
-		trace("bulletCollision " + collider.rectangle.collisionTypes);
+		//trace("bulletCollision " + collider.rectangle.collisionTypes);
 
 		if (bulletCollision)
 			health -= 15;
