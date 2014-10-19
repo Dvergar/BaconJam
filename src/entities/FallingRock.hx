@@ -51,7 +51,10 @@ class FallingRock extends Sprite
 			//do shit with collisions
 			pos.y = targetY;
 			if (shadow != null)
+			{
 				shadow.destroy();
+				Luxe.camera.shake(6, true);
+			}
 			
 			//Actuate.tween(color, 0.5, { a:0 } ).onComplete(function() { destroy(); } ); //it doesn't work on web		 target	
 		}
