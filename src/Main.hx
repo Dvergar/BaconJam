@@ -114,7 +114,6 @@ class Main extends luxe.Game
     public var bulletColliders:Array<Rectangle> = new Array();
 	public var mousePos:Vector = new Vector(0,0);
     var map:BaconMap;
-	var shit:Array<Dynamic> = new Array();
 
     override function ready()
     {
@@ -237,8 +236,9 @@ class Main extends luxe.Game
     }
 	
     // Most useless function i've ever seen in my entire life!
+	// I was thinking of adding the shadown here, but in the end i added it inside the FallingRock class
 	public function rockFall(x:Float,y:Float)
 	{
-		shit.push(new FallingRock(x, y));
+		new FallingRock(x, y);
 	}
 }
