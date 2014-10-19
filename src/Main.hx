@@ -257,8 +257,10 @@ class Main extends luxe.Game
 		
 		Luxe.timer.schedule(1, rockFall);
 		Luxe.timer.schedule(1, rockFall);
-		Luxe.timer.schedule(1, rockFall);
 		Luxe.timer.schedule(1, rockFall);	
+		Luxe.timer.schedule(1, rockFall);
+		Luxe.timer.schedule(60, rockFall);
+
 	}
 
     override function onmousemove(e:MouseEvent)
