@@ -88,5 +88,7 @@ class Bullet extends Sprite
 				   	});
 	        }
 		}
+
+		collider.rectangle.collisionTypes = new Array();
 	}
 }

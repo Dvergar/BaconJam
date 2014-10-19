@@ -70,7 +70,7 @@ class BoxCollider extends Component
 					rectangle.collisionTypes.push(colliders.type);
 					if(colliders.type != WORLD)
 						rekt.collisionTypes.push(rectangle.type);
-						
+
 					collides = true;
 					rectangle.y = oldCollisionBox.y;
 				}
@@ -83,7 +83,7 @@ class BoxCollider extends Component
 				{
 					// MIND THE LEAKS
 					rectangle.collisionTypes.push(colliders.type);
-					if(colliders.type != WORLD)
+					if(rekt.type != WORLD)
 						rekt.collisionTypes.push(rectangle.type);
 
 					collides = true;
