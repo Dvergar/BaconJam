@@ -196,6 +196,7 @@ class Main extends luxe.Game
                     colliders.push(new Rectangle(posx * BaconMap.TILESIZE, posy * BaconMap.TILESIZE, BaconMap.TILESIZE, BaconMap.TILESIZE));
 		
 		Luxe.timer.schedule(5, rockFall);
+		Luxe.timer.schedule(5+Math.random()*5, rockFall);
 	}
 
     override function onmousemove(e:MouseEvent)
@@ -263,7 +264,7 @@ class Main extends luxe.Game
 			y:30,
 			w: 300,
 			h:30,
-			color: new Color().rgb(0xFF00EE00),
+			color: new Color().rgb(0xFFFFFF),
 			depth:11,
 			immediate:true
 		});
@@ -354,6 +355,6 @@ class Main extends luxe.Game
 		}while (map.collisionMap[x][y]);
 		new FallingRock((x+0.5)*BaconMap.TILESIZE, (y+0.5)*BaconMap.TILESIZE);
 		//player.hurt(10);
-		Luxe.timer.schedule(Math.random() * 3, rockFall);
+		Luxe.timer.schedule(3+Math.random() * 3, rockFall);
 	}
 }
