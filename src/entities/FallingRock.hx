@@ -54,14 +54,16 @@ class FallingRock extends Sprite
 			pos.x = targetX;
 			if (shadow != null)
 			{
-				if (Vector.Subtract(pos, LuxeApp._game.player.pos).length < 50)
+				var distance = Vector.Subtract(pos, LuxeApp._game.player.pos).length;
+				if (distance < 50)
 				{
 					LuxeApp._game.player.hurt(15);
 				}
 				shadow.destroy();
 				shadow = null;
-				new Enemy(targetX-32, targetY-32);
-				Luxe.camera.shake(6, true);
+				new Enemy(targetX - 32, targetY - 32);
+				if(distance <500)
+					Luxe.camera.shake(6, true);
 			}
 			
 			//Actuate.tween(color, 0.5, { a:0 } ).onComplete(function() { destroy(); } ); //it doesn't work on web		 target	
