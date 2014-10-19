@@ -18,9 +18,9 @@ class Bullet extends Sprite
     public function new(x:Float, y:Float,direction:Vector)
     {
         this.direction = direction.normalized;
+
 		var texture = Luxe.loadTexture('assets/bullet.png');
         texture.filter = FilterType.nearest;
-		
         super({
             texture: texture,
             pos: new Vector(x, y),

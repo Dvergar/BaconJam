@@ -27,16 +27,16 @@ class ShootComponent extends Component
 
 		// Yeah yeah, can probably be in its own component
 		var texture = Luxe.loadTexture('assets/weapon.png');
+        texture.filter = FilterType.nearest;
+        sprite = new Sprite({
+            texture : texture,
+            pos : new Vector( Luxe.screen.w/2, Luxe.screen.h/2 ),
+            depth : 1,
+        });
+
 		texture.onload = function(f)
 		{
-	        texture.filter = FilterType.nearest;
-
-	        sprite = new Sprite({
-	            texture : texture,
-	            pos : new Vector( Luxe.screen.w/2, Luxe.screen.h/2 ),
-	            origin: new Vector(0, texture.height/2),
-	            depth : 1,
-	        });
+	        sprite.origin = new Vector(0, texture.height/2);
 		}
 	}
 	
@@ -56,7 +56,6 @@ class ShootComponent extends Component
 			sinceLastShoot = 0;
 		}
 
-		if(sprite == null) return;  // Super meh
 		sprite.pos.x = e.pos.x ;
 		sprite.pos.y = e.pos.y;
 
