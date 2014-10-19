@@ -22,6 +22,7 @@ class BoxCollider extends Component
 {
 	var sprite:Sprite;
 	var centered:Bool;
+	var colliderList:Array<Array<Rectangle>>;
 	public var render:Bool = false;
 	public var collides:Bool;
 	public var collisionBox:Rectangle;
@@ -31,12 +32,13 @@ class BoxCollider extends Component
 	@:isVar public var width(default, set):Float;
 	@:isVar public var height(default, set):Float;
 
-	public function new(width:Float=100, height:Float=100, centered:Bool=false) 
+	public function new(width:Float, height:Float, colliderList:Array<Array<Rectangle>>, centered:Bool=false) 
 	{
 		super( { name:"BoxCollider" } );
 		this.centered = centered;
 		this.height = height;
 		this.width = width;
+		this.colliderList = colliderList;
 		collisionBox = new Rectangle(0, 0, width, height);
 	}
 	
@@ -46,7 +48,7 @@ class BoxCollider extends Component
 		sprite = cast entity;
 
 		collisionBox.x = sprite.pos.x + (centered ? -width/2 : 0);
-		collisionBox.y = sprite.pos.y + (centered ? -width / 2 : 0);
+		collisionBox.y = sprite.pos.y + (centered ? -width/2 : 0);
 	}
 	
 	override public function update(dt:Float) 
@@ -59,21 +61,23 @@ class BoxCollider extends Component
 
 		// MOVE Y AND CORRECT IF COLLISION
 		collisionBox.y = sprite.pos.y + (centered ? -width / 2 : 0);
-		for(collider in LuxeApp._game.colliders)
-			if(collider.overlaps(collisionBox))
-			{
-				collides = true;
-				collisionBox.y = oldCollisionBox.y;
-			}
+		for(colliders in colliderList)
+			for(collider in colliders)
+				if(collider.overlaps(collisionBox))
+				{
+					collides = true;
+					collisionBox.y = oldCollisionBox.y;
+				}
 
 		// MOVE X AND CORREF IF COLLISION
 		collisionBox.x = sprite.pos.x + (centered ? -width / 2 : 0);
-		for(collider in LuxeApp._game.colliders)
-			if(collider.overlaps(collisionBox))
-			{
+		for(colliders in colliderList)
+			for(collider in colliders)
+				if(collider.overlaps(collisionBox))
+				{
 				collides = true;
 				collisionBox.x = oldCollisionBox.x;
-			}
+				}
 
 		// REFLECT TO SPRITE
 		sprite.pos.x = collisionBox.x - (centered ? -width / 2 : 0);

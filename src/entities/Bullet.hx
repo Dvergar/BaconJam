@@ -17,7 +17,7 @@ class Bullet extends Sprite
 	
     public function new(x:Float, y:Float,direction:Vector)
     {
-		collider = new BoxCollider(2, 2, true);
+		collider = new BoxCollider(2, 2, [LuxeApp._game.colliders, LuxeApp._game.enemyColliders], true);
 		
         this.direction = direction.normalized;
 
@@ -55,7 +55,7 @@ class Bullet extends Sprite
 		pos.x += direction.x * speed * dt;
 		pos.y += direction.y * speed * dt;
 		
-		if (collider.collides)
+		if(collider.collides)
 		{
 			destroy();
 			LuxeApp._game.bulletColliders.remove(collider.collisionBox);

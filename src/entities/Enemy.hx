@@ -17,7 +17,7 @@ import phoenix.Texture.FilterType;
 class Enemy extends Sprite
 {
 	var collider:Rectangle;
-	var health:Int = 10;
+	var health:Int = 100;
 
 	public function new(x:Float, y:Float)
 	{
@@ -27,13 +27,11 @@ class Enemy extends Sprite
         super({
             texture : texture,
             pos : new Vector(x, y),
-			name:"enemy",
 			depth: 1
         });
-		var box = new BoxCollider(50, 60, true);
+		var box = new BoxCollider(50, 60, [LuxeApp._game.colliders], true);
 		add(box);
 		collider = box.collisionBox;
-		//collider = new Rectangle(x, y, 50, 60);
 		LuxeApp._game.enemyColliders.push(collider);
 	}
 	
@@ -44,12 +42,9 @@ class Enemy extends Sprite
 		var direction = LuxeApp._game.player.pos.clone().subtract(pos).normalize();
 		pos.add(direction.multiplyScalar(100 * dt));
 		
-		collider.x = pos.x;
-		collider.y = pos.y;
-		
 		var bulletCollision = collideWith(LuxeApp._game.bulletColliders);
 		if (bulletCollision)
-			health -= 5;
+			health -= 15;
 		
 		if (health <= 0)
 			die();
