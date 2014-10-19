@@ -320,8 +320,8 @@ class Main extends luxe.Game
 		
 		//healthbar background
 		healthBar = Luxe.draw.box({ 
-			x:30,
-			y:30,
+			x:Luxe.camera.pos.x + 30,
+			y:Luxe.camera.pos.y + 30,
 			w: 3*Player.MAX_HEALTH,
 			h:30,
 			color: new Color().rgb(0x999999),
@@ -331,8 +331,8 @@ class Main extends luxe.Game
 		
 		//healthbar
 		healthBar = Luxe.draw.box({ 
-			x:30,
-			y:30,
+			x:Luxe.camera.pos.x + 30,
+			y:Luxe.camera.pos.y + 30,
 			w: 3*player.health,
 			h:30,
 			color: healthColor,
@@ -342,8 +342,8 @@ class Main extends luxe.Game
 		
 		//healthbar outline
 		Luxe.draw.rectangle({ 
-			x:30,
-			y:30,
+			x:Luxe.camera.pos.x + 30,
+			y:Luxe.camera.pos.y + 30,
 			w: 300,
 			h:30,
 			color: new Color().rgb(0xFFFFFF),
@@ -426,7 +426,8 @@ class Main extends luxe.Game
 		
 		Luxe.draw.text( {
 			immediate: true,
-			pos: new Vector(Luxe.screen.mid.x,30),
+            pos: new Vector(Luxe.camera.pos.x + Luxe.screen.mid.x,
+                            Luxe.camera.pos.y + 30),
 			text: "Remaining enemies: " + (1000000-enemiesKilled),
 		});
     }
