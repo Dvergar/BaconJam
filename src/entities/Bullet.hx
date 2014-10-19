@@ -26,10 +26,15 @@ class Bullet extends Sprite
             pos: new Vector(x, y),
             depth: 1,
         });
+
+        texture.onload = function(f)
+        {
+        	origin = new Vector(texture.width/2, texture.height/2);
+			collider = new BoxCollider(texture.width, texture.height, true);
+        }
 		
 		this.rotation.setFromAxisAngle(new Vector(0, 0, 1),
 									   Math.atan2(direction.y, direction.x) -0.1 + Math.random() * 0.2);
-		collider = new BoxCollider(10, 10, false);
 		add(collider);
 	}
 	
@@ -49,6 +54,7 @@ class Bullet extends Sprite
 		if (collider.collides)
 		{
 			destroy();
+			LuxeApp._game.bulletColliders.remove(collider.collisionBox);
 		}
 	}
 	

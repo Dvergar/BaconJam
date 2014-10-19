@@ -220,6 +220,18 @@ class Main extends luxe.Game
                 depth: 3,
             });
 		}
+
+        for (collider in bulletColliders)
+        {
+            Luxe.draw.rectangle({
+                x: collider.x, y : collider.y,
+                w: collider.w,
+                h: collider.h,
+                color: new Color(1, 1 ,1),
+                immediate: true,
+                depth: 3,
+            });
+        }
 		#end
 		
     }
