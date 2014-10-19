@@ -33,8 +33,8 @@ class Bullet extends Sprite
         {
         	origin = new Vector(texture.width/2, texture.height/2);
 			
-			collider.collisionBox.w = texture.width;
-			collider.collisionBox.h = texture.height;
+			collider.width = texture.width;
+			collider.height = texture.height;
         }
 		
 		this.rotation.setFromAxisAngle(new Vector(0, 0, 1),
