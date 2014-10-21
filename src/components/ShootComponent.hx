@@ -89,7 +89,13 @@ class ShootComponent extends Component
 				.applyQuaternion(new Quaternion().setFromAxisAngle(new Vector(0, 0, 1),-0.017*(Std.random(10)-5))));
 		}
 		
+		// KNOCKBACK
+		e.pos.subtract(direction.clone().normalize().multiplyScalar(1.5));
+
+		// SHAKE
 		Luxe.camera.shake(3, true);
+
+		// AUDIO
 		Luxe.audio.play('boom');
 	}
 	
