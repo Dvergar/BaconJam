@@ -289,7 +289,6 @@ class Main extends luxe.Game
             pos: new Vector(Luxe.camera.pos.x + Luxe.screen.mid.x,
                             Luxe.camera.pos.y + 30),
             font : font,
-            text : "lel",
             batcher: uiBatcher,
         });
 	}
@@ -343,20 +342,13 @@ class Main extends luxe.Game
 			return; //ugly fix
 		}
 
-        // UI HEALTH COLOR
-        var healthColor:Color = new Color();
-        healthColor.r = (player.health / Player.MAX_HEALTH) - 0.53;
-        healthColor.g = (player.health / Player.MAX_HEALTH) - 0.37;
-        healthColor.b = 0.93;
-
         // UI HEALTH BAR
         healthBar = Luxe.draw.box({ 
             x: 151,
             y: 12,
             w: 2.98*player.health,
             h: 32,
-            // color: new Color().rgb(0xff79a1ee),
-            color: healthColor,
+            color: new Color().rgb(0x47c0c1),
             immediate: true,
             batcher: uiBatcher,
             depth: 10,

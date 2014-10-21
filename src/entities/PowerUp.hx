@@ -57,7 +57,6 @@ class PowerUp extends Sprite
             font : LuxeApp._game.font,
             text : msg,
             depth: 3,
-            // batcher: uiBatcher,
         });
 
         Actuate.tween(text.pos, 3, {y: y - 50});
