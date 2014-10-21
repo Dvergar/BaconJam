@@ -206,6 +206,7 @@ class Main extends luxe.Game
     var uiBatcher:Batcher;
 	var healthBar:QuadGeometry;
     var font:BitmapFont;
+    var textAlienCounter:Text;
 	
     override function ready()
 	{
@@ -284,11 +285,11 @@ class Main extends luxe.Game
         });
 
         // UI TEXT: REMAINING ALIENS
-        Luxe.draw.text({
-            font: font,
+        textAlienCounter = new Text({
             pos: new Vector(Luxe.camera.pos.x + Luxe.screen.mid.x,
                             Luxe.camera.pos.y + 30),
-            text: "Remaining enemies: " + (1000000-enemiesKilled),
+            font : font,
+            text : "lel",
             batcher: uiBatcher,
         });
 	}
@@ -360,6 +361,9 @@ class Main extends luxe.Game
             batcher: uiBatcher,
             depth: 10,
         });
+
+        // UI REMAINING TEXT UPDATE
+        textAlienCounter.text = "Remaining enemies: " + (1000000-enemiesKilled);
 		
         // INPUT UPDATE
         input.set_xy(0, 0);
