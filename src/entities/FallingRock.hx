@@ -78,7 +78,7 @@ class FallingRock extends Sprite
 
 				// new Enemy(targetX - 32, targetY - 32);
 				if(distance <500)
-					Luxe.camera.shake(6, true);
+					Luxe.camera.shake(8000 / distance, true);
 			}
 			
 			//Actuate.tween(color, 0.5, { a:0 } ).onComplete(function() { destroy(); } ); //it doesn't work on web		 target	
