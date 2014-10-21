@@ -280,16 +280,18 @@ class Main extends luxe.Game
         texture.filter = FilterType.nearest;
         var healthBarBackground = new Sprite({
             texture: texture,
-            pos: new Vector(300, 30),
+            pos: new Vector(148, 8),
             batcher: uiBatcher,
+            origin: new Vector(0, 0),
         });
 
         // UI TEXT: REMAINING ALIENS
         textAlienCounter = new Text({
             pos: new Vector(Luxe.camera.pos.x + Luxe.screen.mid.x,
-                            Luxe.camera.pos.y + 30),
+                            Luxe.camera.pos.y + 25),
             font : font,
             batcher: uiBatcher,
+            depth:2,
         });
 	}
 
