@@ -61,7 +61,22 @@ class FallingRock extends Sprite
 				}
 				shadow.destroy();
 				shadow = null;
-				new Enemy(targetX - 32, targetY - 32);
+
+				// SPAWN ENEMIES
+				function spawnMob(posx:Int, posy:Int)
+					if(!LuxeApp._game.map.collisionMap[posx][posy])
+						new Enemy(posx * 64, posy * 64);
+
+				var posx:Int = Std.int(targetX / 64);
+				var posy:Int = Std.int(targetY / 64);
+
+				spawnMob(posx + 1, posy);
+				spawnMob(posx - 1, posy);
+				spawnMob(posx, posy + 1);
+				spawnMob(posx, posy - 1);
+
+
+				// new Enemy(targetX - 32, targetY - 32);
 				if(distance <500)
 					Luxe.camera.shake(6, true);
 			}
