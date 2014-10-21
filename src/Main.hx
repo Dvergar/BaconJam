@@ -40,7 +40,7 @@ class BaconMap  // Damn it, can't call it Map or Tilemap
         TILES_HIGH = map.tileshigh;
         TILES_WIDE = map.tileswide;
 
-        tiles = parseMap({data:map, skip: ["char", "nests"]});
+        tiles = parseMap({data:map, skip: ["char", "nests", "collisionmap"]});
         tiles.layers.get("shadows").opacity = 0.1;
         tiles.display({});
         collisionMap = getMapFrom(map, "collisionmap");
