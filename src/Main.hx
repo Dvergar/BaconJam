@@ -1,24 +1,26 @@
-
-import entities.Enemy;
-import entities.FallingRock;
+import luxe.Text;
+import luxe.Input;
+import luxe.Color;
+import luxe.Sprite;
+import luxe.Vector;
+import luxe.Parcel;
+import luxe.Rectangle;
+import luxe.Quaternion;
+import luxe.ParcelProgress;
+import luxe.tilemaps.Tilemap;
+import luxe.importers.tiled.TiledMap;
 import luxe.collision.ShapeDrawerLuxe;
 import luxe.collision.shapes.Polygon;
 import luxe.collision.shapes.Shape;
-import luxe.Parcel;
-import luxe.ParcelProgress;
-import luxe.Vector;
-import luxe.Input;
-import luxe.Text;
-import luxe.Color;
-import luxe.Rectangle;
-import luxe.Sprite;
-import luxe.tilemaps.Tilemap;
-import luxe.importers.tiled.TiledMap;
-import luxe.Quaternion;
-import phoenix.Texture.FilterType;
 import phoenix.BitmapFont;
+import phoenix.Batcher;
+import phoenix.Camera;
+import phoenix.Texture.FilterType;
 import phoenix.geometry.QuadGeometry;
+
+import entities.Enemy;
 import entities.Bullet;
+import entities.FallingRock;
 
 
 typedef Tile = {x:Int, y:Int};
@@ -131,7 +133,6 @@ class BaconMap  // Damn it, can't call it Map or Tilemap
                 break;
             }
         }
-
         return array;
     }
 }
@@ -190,7 +191,6 @@ class CollisionRekt extends Rectangle
 }
 
 
-
 class Main extends luxe.Game
 {
     public var player:Player;
@@ -201,11 +201,10 @@ class Main extends luxe.Game
 	public var mousePos:Vector = new Vector(0, 0);
     public var map:BaconMap;
 	public var enemiesKilled:Int = 0;
-    var healthBar2:Sprite;
     var loaded:Bool = false;
-    var font:BitmapFont;
-	
+    var uiBatcher:Batcher;
 	var healthBar:QuadGeometry;
+    var font:BitmapFont;
 	
     override function ready()
 	{
@@ -248,8 +247,6 @@ class Main extends luxe.Game
             Luxe.timer.schedule(2, spawnMob);
         }
 
-        //spawnMob();
-
         // PUSH COLLIDERS FROM COLLISION MAP
         for(posx in 0...map.TILES_WIDE)
             for(posy in 0...map.TILES_HIGH)
@@ -259,20 +256,35 @@ class Main extends luxe.Game
                                                             BaconMap.TILESIZE,
                                                             BaconMap.TILESIZE));
 		
-		
 		Luxe.timer.schedule(1, rockFall);
 		Luxe.timer.schedule(1, rockFall);
 		Luxe.timer.schedule(1, rockFall);	
 		Luxe.timer.schedule(1, rockFall);
 		Luxe.timer.schedule(60, rockFall);
 
-        // HEALTHBAR
+        // UI BATCHER
+        uiBatcher = new Batcher(Luxe.renderer, 'meh');
+        var uiView = new Camera();
+        uiBatcher.view = uiView;
+        uiBatcher.layer = 2;
+        Luxe.renderer.add_batch(uiBatcher);
+
+        // UI HEALTH BACKGROUND
         var texture = Luxe.loadTexture('assets/healthbar.png');
         texture.filter = FilterType.nearest;
-        healthBar2 = new Sprite({
-            texture : texture,
-            pos : new Vector( Luxe.screen.w/2, Luxe.screen.h/2 ),
-            depth : 1,
+        var healthBarBackground = new Sprite({
+            texture: texture,
+            pos: new Vector(300, 30),
+            batcher: uiBatcher,
+        });
+
+        // UI TEXT: REMAINING ALIENS
+        Luxe.draw.text({
+            font: font,
+            pos: new Vector(Luxe.camera.pos.x + Luxe.screen.mid.x,
+                            Luxe.camera.pos.y + 30),
+            text: "Remaining enemies: " + (1000000-enemiesKilled),
+            batcher: uiBatcher,
         });
 	}
 
@@ -283,7 +295,6 @@ class Main extends luxe.Game
     var downPressed = false;
     var leftPressed = false;
     var rightPressed = false;
-
 
     override function onkeyup(e:KeyEvent)
     {
@@ -326,51 +337,24 @@ class Main extends luxe.Game
 			return; //ugly fix
 		}
 
-        var healthMarginX = 151;
-        var healthMarginY = 12;
-        healthBar2.pos.x = Luxe.camera.pos.x + 300;
-        healthBar2.pos.y = Luxe.camera.pos.y + 30;
-		
-		
-		var healthColor:Color = new Color();
-		healthColor.r = (1 - (player.health / Player.MAX_HEALTH) / 1.5);
-		healthColor.g = ((player.health / Player.MAX_HEALTH) / 1.5);
-		healthColor.b = 0;
-		
-		
+        // UI HEALTH COLOR
+        var healthColor:Color = new Color();
+        healthColor.r = (player.health / Player.MAX_HEALTH) - 0.53;
+        healthColor.g = (player.health / Player.MAX_HEALTH) - 0.37;
+        healthColor.b = 0.93;
 
-		// //healthbar background
-		// healthBar = Luxe.draw.box({ 
-		// 	x:Luxe.camera.pos.x + healthMargin,
-		// 	y:Luxe.camera.pos.y + 30,
-		// 	w: 3*Player.MAX_HEALTH,
-		// 	h:30,
-		// 	color: new Color().rgb(0x999999),
-		// 	depth:9,
-		// 	immediate:true
-		// });
-		
-		//healthbar
-		healthBar = Luxe.draw.box({ 
-			x:Luxe.camera.pos.x + healthMarginX,
-			y:Luxe.camera.pos.y + healthMarginY,
-			w: 2.98*player.health,
-			h:32,
-			color: healthColor,
-			depth:10,
-			immediate:true
-		});
-		
-		// //healthbar outline
-		// Luxe.draw.rectangle({ 
-		// 	x:Luxe.camera.pos.x + healthMargin,
-		// 	y:Luxe.camera.pos.y + 30,
-		// 	w: 300,
-		// 	h:30,
-		// 	color: new Color().rgb(0xFFFFFF),
-		// 	depth:11,
-		// 	immediate:true
-		// });
+        // UI HEALTH BAR
+        healthBar = Luxe.draw.box({ 
+            x: 151,
+            y: 12,
+            w: 2.98*player.health,
+            h: 32,
+            // color: new Color().rgb(0xff79a1ee),
+            color: healthColor,
+            immediate: true,
+            batcher: uiBatcher,
+            depth: 10,
+        });
 		
         // INPUT UPDATE
         input.set_xy(0, 0);
@@ -444,19 +428,8 @@ class Main extends luxe.Game
             });
         }
 		#end
-		
-		Luxe.draw.text( {
-			immediate: true,
-            font: font,
-            depth:5,
-            pos: new Vector(Luxe.camera.pos.x + Luxe.screen.mid.x,
-                            Luxe.camera.pos.y + 30),
-			text: "Remaining enemies: " + (1000000-enemiesKilled),
-		});
     }
 	
-    // Most useless function i've ever seen in my entire life!
-	// I was thinking of adding the shadown here, but in the end i added it inside the FallingRock class
 	public function rockFall()
 	{
 		var x:Int;
