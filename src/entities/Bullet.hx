@@ -42,6 +42,8 @@ class Bullet extends Sprite
 		this.rotation.setFromAxisAngle(new Vector(0, 0, 1),
 									   Math.atan2(direction.y, direction.x));
 		add(collider);
+
+		Luxe.audio.create('assets/35451__inkington__hit-mic06.wav', 'hit');
 	}
 	
 	override public function init() 
@@ -63,6 +65,7 @@ class Bullet extends Sprite
 			destroy();
 			LuxeApp._game.bulletColliders.remove(collider.rectangle);
 
+			// ENEMY COLLISION
 			if(Lambda.has(collider.rectangle.collisionTypes, ENEMY))
 			{
 				// BLOOD PARTICLES
@@ -86,6 +89,13 @@ class Bullet extends Sprite
 		        	{
 		        		sprite.destroy();
 				   	});
+	        }
+	        // WORLD COLLISION
+	        else
+	        {
+	        	var distance = Vector.Subtract(pos, LuxeApp._game.player.pos).length;
+	        	Luxe.audio.volume('hit', 25 / distance);
+				Luxe.audio.play('hit');
 	        }
 		}
 

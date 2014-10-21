@@ -27,7 +27,7 @@ class ShootComponent extends Component
 	{
 		super(_options);
 
-		// Yeah yeah, can probably be in its own component
+		// SPRITE
 		var texture = Luxe.loadTexture('assets/weapon.png');
         texture.filter = FilterType.nearest;
         sprite = new Sprite({
@@ -40,6 +40,9 @@ class ShootComponent extends Component
 		{
 	        sprite.origin = new Vector(0, texture.height/2);
 		}
+
+		// AUDIO
+		Luxe.audio.create('assets/161862__antistatikk__balloon-bass-12.wav', 'boom');
 	}
 	
 	override public function init() 
@@ -87,6 +90,7 @@ class ShootComponent extends Component
 		}
 		
 		Luxe.camera.shake(3, true);
+		Luxe.audio.play('boom');
 	}
 	
 }
