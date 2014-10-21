@@ -202,10 +202,10 @@ class Main extends luxe.Game
     public var map:BaconMap;
 	public var enemiesKilled:Int = 0;
     public var mobsBatcher:Batcher;
+    public var font:BitmapFont;
     var loaded:Bool = false;
     var uiBatcher:Batcher;
-	var healthBar:QuadGeometry;
-    var font:BitmapFont;
+    var healthBar:QuadGeometry;
     var textAlienCounter:Text;
 	
     override function ready()

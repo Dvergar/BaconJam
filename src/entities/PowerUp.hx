@@ -1,9 +1,11 @@
 package entities;
 
+import luxe.Text;
 import luxe.Color;
-import luxe.options.SpriteOptions;
 import luxe.Sprite;
 import luxe.Vector;
+import luxe.tween.Actuate;
+import luxe.options.SpriteOptions;
 
 /**
  * ...
@@ -47,6 +49,21 @@ class PowerUp extends Sprite
 		
 	}
 	
+	function textBonus(msg:String, pos:Vector)
+	{
+		var y = pos.y + 20;
+        var text = new Text({
+            pos: new Vector(pos.x + 10, y),
+            font : LuxeApp._game.font,
+            text : msg,
+            depth: 3,
+            // batcher: uiBatcher,
+        });
+
+        Actuate.tween(text.pos, 3, {y: y - 50});
+        Actuate.tween(text.color, 3, {a: 0});
+	}
+
 	override public function update(dt:Float) 
 	{
 		if (Vector.Subtract(pos, LuxeApp._game.player.pos).length < 30)
@@ -55,8 +72,10 @@ class PowerUp extends Sprite
 			{
 				case Crit:
 					LuxeApp._game.player.fireComponent.crit++;
+					textBonus("Critical increase", LuxeApp._game.player.pos);
 				case FireRate:
 					LuxeApp._game.player.fireComponent.fireRate++;
+					textBonus("Fire rate increase", LuxeApp._game.player.pos);
 			}
 			destroy();
 		}
