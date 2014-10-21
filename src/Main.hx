@@ -201,6 +201,7 @@ class Main extends luxe.Game
 	public var mousePos:Vector = new Vector(0, 0);
     public var map:BaconMap;
 	public var enemiesKilled:Int = 0;
+    public var mobsBatcher:Batcher;
     var loaded:Bool = false;
     var uiBatcher:Batcher;
 	var healthBar:QuadGeometry;
@@ -232,9 +233,13 @@ class Main extends luxe.Game
 	
     function assets_loaded(_)
     {
+        // INIT
 		loaded = true;
 		player = new Player(Luxe.screen.mid.x, Luxe.screen.mid.y);
         map = new BaconMap();
+        mobsBatcher = new Batcher(Luxe.renderer, 'lel');
+        mobsBatcher.layer = 2;
+        Luxe.renderer.add_batch(mobsBatcher);
 
         function spawnMob()
         {

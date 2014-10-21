@@ -33,8 +33,8 @@ class Enemy extends Sprite
             texture: texture,
             pos: new Vector(x+25, y+30),
             depth: 3,
-            //origin: new Vector(0, 0),
 			size : new Vector(64, 64),
+			batcher: LuxeApp._game.mobsBatcher,
         });
 
         texture.onload = function(t)
@@ -61,7 +61,6 @@ class Enemy extends Sprite
 
 		collider = new BoxCollider(ENEMY, 45, 55, [LuxeApp._game.colliders], true);
 		add(collider);
-		// collider = box.collisionBox;
 		LuxeApp._game.enemyColliders.push(collider.rectangle);
 	}
 	
