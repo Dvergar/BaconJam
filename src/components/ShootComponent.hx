@@ -21,6 +21,7 @@ class ShootComponent extends Component
 	var sprite:Sprite;
 	var e:Sprite;
 	var sinceLastShoot:Float = 0;
+	var k:Float = 0;
 	
 	public function new(?_options:ComponentOptions) 
 	{
@@ -32,7 +33,7 @@ class ShootComponent extends Component
         sprite = new Sprite({
             texture : texture,
             pos : new Vector( Luxe.screen.w/2, Luxe.screen.h/2 ),
-            depth : 1,
+            depth : 2,
         });
 
 		texture.onload = function(f)
@@ -49,6 +50,7 @@ class ShootComponent extends Component
 	
 	override public function update(dt:Float) 
 	{
+		k+= 0.7;
 		super.update(dt);
 		sinceLastShoot += dt;
 		if (sinceLastShoot > (1 / fireRate) && shooting)
@@ -57,8 +59,12 @@ class ShootComponent extends Component
 			sinceLastShoot = 0;
 		}
 
-		sprite.pos.x = e.pos.x ;
-		sprite.pos.y = e.pos.y;
+		sprite.pos.x = e.pos.x + 0;
+		sprite.pos.y = e.pos.y + 10;
+
+		// WEAPON WOBBLE
+		if(LuxeApp._game.input.length != 0)
+			sprite.pos.y = e.pos.y + 10 + Math.cos(k) * 3;
 
 		var angle = Luxe.screen.mid.rotationTo(LuxeApp._game.mousePos);
 		sprite.rotation = new Quaternion().setFromEuler(new Vector(0,0, angle - 90).radians());
