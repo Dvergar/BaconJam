@@ -75,8 +75,7 @@ class FallingRock extends Sprite
 				spawnMob(posx, posy + 1);
 				spawnMob(posx, posy - 1);
 
-
-				// new Enemy(targetX - 32, targetY - 32);
+				// METEOR SHAKE
 				if(distance <500)
 					Luxe.camera.shake(8000 / distance, true);
 			}

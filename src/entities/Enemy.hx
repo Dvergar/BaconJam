@@ -27,6 +27,7 @@ class Enemy extends Sprite
 
 	public function new(x:Float, y:Float)
 	{
+        // SPRITE ANIMATION
         var texture = Luxe.loadTexture('assets/enemy.png');
         texture.filter = FilterType.nearest;
 
@@ -60,9 +61,15 @@ class Enemy extends Sprite
 	        anim.play();
     	}
 
+    	// COLLIDER
 		collider = new BoxCollider(ENEMY, 45, 55, [LuxeApp._game.colliders], true);
 		add(collider);
 		LuxeApp._game.enemyColliders.push(collider.rectangle);
+
+		// AUDIO
+		Luxe.audio.create('assets/bite-small.wav', 'bite');
+		Luxe.audio.create('assets/bite-small2.wav', 'bite2');
+		Luxe.audio.create('assets/bite-small3.wav', 'bite3');
 	}
 	
 	override public function update(dt:Float) 
@@ -74,9 +81,7 @@ class Enemy extends Sprite
 		pos.add(direction.multiplyScalar(100 * dt));
 		flipx = direction.x < 0;
 		
-		// var bulletCollision = collideWith(LuxeApp._game.bulletColliders);
 		var bulletCollision = Lambda.has(collider.rectangle.collisionTypes, BULLET);
-		//trace("bulletCollision " + collider.rectangle.collisionTypes);
 
 		if (bulletCollision)
 			health -= 15;
@@ -84,8 +89,10 @@ class Enemy extends Sprite
 		if (health <= 0)
 			die();
 		
+		// ATTACK
 		if (sinceLastAttack > attackEvery && Vector.Subtract(pos, LuxeApp._game.player.pos).length < 25)
 		{
+			Luxe.audio.play(['bite', 'bite1', "bite2"][Std.random(3)]);
 			LuxeApp._game.player.hurt(5);
 			sinceLastAttack = 0;
 		}
@@ -105,14 +112,4 @@ class Enemy extends Sprite
 		LuxeApp._game.enemiesKilled++;
 		new PowerUp(pos.x,pos.y);
 	}
-	
-	// public function collideWith(colliders:Colliders):Bool
-	// {
-	// 	for (_collider in colliders.array)
-	// 	{
-	// 		if (_collider.overlaps(collider))
-	// 			return true;
-	// 	}
-	// 	return false;
-	// }
 }
