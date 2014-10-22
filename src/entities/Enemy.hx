@@ -77,10 +77,12 @@ class Enemy extends Sprite
 		super.update(dt);
 		sinceLastAttack += dt;
 		
+		// MOVE TOWARDS THE PLAYER
 		var direction = LuxeApp._game.player.pos.clone().subtract(pos).normalize();
 		pos.add(direction.multiplyScalar(100 * dt));
 		flipx = direction.x < 0;
 		
+		// TAKE DAMAGE
 		var bulletCollision = Lambda.has(collider.rectangle.collisionTypes, BULLET);
 
 		if (bulletCollision)
@@ -92,12 +94,10 @@ class Enemy extends Sprite
 		// ATTACK
 		if (sinceLastAttack > attackEvery && Vector.Subtract(pos, LuxeApp._game.player.pos).length < 25)
 		{
-			Luxe.audio.play(['bite', 'bite1', "bite2"][Std.random(3)]);
+			Luxe.audio.play(['bite', 'bite2', "bite3"][Std.random(3)]);
 			LuxeApp._game.player.hurt(5);
 			sinceLastAttack = 0;
 		}
-
-		collider.rectangle.collisionTypes = new Array();
 	}
 	
 	override function ondestroy() 

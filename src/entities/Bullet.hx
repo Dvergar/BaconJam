@@ -98,7 +98,5 @@ class Bullet extends Sprite
 				Luxe.audio.play('hit');
 	        }
 		}
-
-		collider.rectangle.collisionTypes = new Array();
 	}
 }

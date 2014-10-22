@@ -15,5 +15,10 @@
     "fonts" : [
     ],
     "sounds" : [
+        { "id" : "assets/35451__inkington__hit-mic06.wav", "name" : "hit", "is_stream" : true },
+        { "id" : "assets/161862__antistatikk__balloon-bass-12.wav", "name" : "boom", "is_stream" : true },
+        { "id" : "assets/bite-small.wav", "name" : "bite", "is_stream" : true },
+        { "id" : "assets/bite-small2.wav", "name" : "bite2", "is_stream" : true },
+        { "id" : "assets/bite-small3.wav", "name" : "bite3", "is_stream" : true },
     ]
 }

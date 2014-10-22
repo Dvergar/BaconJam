@@ -56,9 +56,13 @@ class BoxCollider extends Component
 	{
 		super.update(dt);
 
+		Luxe.debug.start('test');
 		// CACHE OLD COLLIDER POSITION
 		collides = false;
 		var oldCollisionBox = rectangle.clone();
+		rectangle.collisionTypes = new Array();
+
+		if(rectangle.collisionTypes.length > 10) throw "lel";
 
 		// MOVE Y AND CORRECT IF COLLISION
 		rectangle.y = sprite.pos.y + (centered ? -width / 2 : 0);
@@ -93,6 +97,8 @@ class BoxCollider extends Component
 		// REFLECT TO SPRITE
 		sprite.pos.x = rectangle.x - (centered ? -width / 2 : 0);
 		sprite.pos.y = rectangle.y - (centered ? -width / 2 : 0);
+
+		Luxe.debug.end('test');
 
 		if (render)
 		{
