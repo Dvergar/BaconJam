@@ -208,6 +208,7 @@ class Main extends luxe.Game
     var uiBatcher:Batcher;
     var healthBar:QuadGeometry;
     var textAlienCounter:Text;
+    var cursor:Sprite;
 	
     override function ready()
 	{
@@ -242,6 +243,7 @@ class Main extends luxe.Game
         mobsBatcher = new Batcher(Luxe.renderer, 'lel');
         mobsBatcher.layer = 2;
         Luxe.renderer.add_batch(mobsBatcher);
+        Luxe.screen.cursor.visible = false;
 
         // PUSH COLLIDERS FROM COLLISION MAP
         for(posx in 0...map.TILES_WIDE)
@@ -282,6 +284,14 @@ class Main extends luxe.Game
             font : font,
             batcher: uiBatcher,
             depth:2,
+        });
+
+        // AIM CURSOR
+        cursor = new Sprite({
+            texture: Luxe.loadTexture('assets/cursor.png'),
+            // pos: new Vector(148, 8),
+            batcher: uiBatcher,
+            // origin: new Vector(0, 0),
         });
 
         // SPAWN EYES
@@ -367,6 +377,9 @@ class Main extends luxe.Game
 		{
 			return; //ugly fix
 		}
+
+        // CURSOR POSITION
+        cursor.pos = mousePos;
 
         // UI HEALTH BAR
         healthBar = Luxe.draw.box({ 
