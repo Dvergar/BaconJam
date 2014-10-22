@@ -17,6 +17,7 @@ import phoenix.Batcher;
 import phoenix.Camera;
 import phoenix.Texture.FilterType;
 import phoenix.geometry.QuadGeometry;
+import luxe.components.sprite.SpriteAnimation;
 
 import entities.Enemy;
 import entities.Bullet;
@@ -28,7 +29,7 @@ class BaconMap  // Damn it, can't call it Map or Tilemap
 {
     public static inline var TILESIZE = 64;
     public var collisionMap:Array<Array<Bool>>;
-    public var nestMap:Array<Tile>;
+    public var eyeMap:Array<Tile>;
     public var TILES_HIGH:Int;
     public var TILES_WIDE:Int;
     var tiles:Tilemap;
@@ -40,11 +41,11 @@ class BaconMap  // Damn it, can't call it Map or Tilemap
         TILES_HIGH = map.tileshigh;
         TILES_WIDE = map.tileswide;
 
-        tiles = parseMap({data:map, skip: ["char", "nests", "collisionmap"]});
+        tiles = parseMap({data:map, skip: ["char", "nests", "collisionmap", "eyemap"]});
         tiles.layers.get("shadows").opacity = 0.1;
         tiles.display({});
         collisionMap = getMapFrom(map, "collisionmap");
-        nestMap = getArrayFrom(map, "nests");
+        eyeMap = getArrayFrom(map, "eyemap");
     }
 
     function parseMap(args:{data:Dynamic, skip:Array<String>})
@@ -242,17 +243,6 @@ class Main extends luxe.Game
         mobsBatcher.layer = 2;
         Luxe.renderer.add_batch(mobsBatcher);
 
-        function spawnMob()
-        {
-            var index = Std.random(map.nestMap.length);
-            var enemyPos = map.nestMap[index];
-
-            new Enemy(enemyPos.x * BaconMap.TILESIZE,
-                      enemyPos.y * BaconMap.TILESIZE);
-
-            Luxe.timer.schedule(2, spawnMob);
-        }
-
         // PUSH COLLIDERS FROM COLLISION MAP
         for(posx in 0...map.TILES_WIDE)
             for(posy in 0...map.TILES_HIGH)
@@ -264,7 +254,7 @@ class Main extends luxe.Game
 		
 		Luxe.timer.schedule(1, rockFall);
 		Luxe.timer.schedule(1, rockFall);
-		Luxe.timer.schedule(1, rockFall);	
+		Luxe.timer.schedule(1, rockFall);
 		Luxe.timer.schedule(1, rockFall);
 		Luxe.timer.schedule(60, rockFall);
 
@@ -293,6 +283,40 @@ class Main extends luxe.Game
             batcher: uiBatcher,
             depth:2,
         });
+
+        // SPAWN EYES
+        for(eyePos in map.eyeMap)
+        {
+            var eye = new Sprite({
+                texture: Luxe.loadTexture('assets/eye.png'),
+                pos: new Vector(eyePos.x * 64 + 32, (eyePos.y + 0) * 64 + 32),
+                size : new Vector(64, 64),
+                depth: 3,
+                batcher: LuxeApp._game.mobsBatcher,
+            });
+
+            texture.onload = function(t)
+            {
+                var anim = new SpriteAnimation({ name:'anim333' });
+                eye.add(anim);
+
+                var animation_json = '
+                    {
+                        "gnn" : {
+                            "frame_size":{ "x":"64", "y":"64" },
+                            "frameset": ["1-3"],
+                            "pingpong":"false",
+                            "loop": "true",
+                            "speed": ' + Std.random(18) + '
+                        },
+                    }
+                ';
+
+                anim.add_from_json(animation_json);
+                anim.animation = 'gnn';
+                anim.play();
+            } 
+        }
 	}
 
     override function onmousemove(e:MouseEvent)

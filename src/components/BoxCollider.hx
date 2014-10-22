@@ -54,9 +54,9 @@ class BoxCollider extends Component
 	
 	override public function update(dt:Float) 
 	{
+		Luxe.debug.start('test');
 		super.update(dt);
 
-		Luxe.debug.start('test');
 		// CACHE OLD COLLIDER POSITION
 		collides = false;
 		var oldCollisionBox = rectangle.clone();
@@ -98,8 +98,6 @@ class BoxCollider extends Component
 		sprite.pos.x = rectangle.x - (centered ? -width / 2 : 0);
 		sprite.pos.y = rectangle.y - (centered ? -width / 2 : 0);
 
-		Luxe.debug.end('test');
-
 		if (render)
 		{
             Luxe.draw.rectangle({
@@ -111,6 +109,7 @@ class BoxCollider extends Component
                 depth: 1,
             });
 		}
+		Luxe.debug.end('test');
 	}
 	
 	public function set_width(newWidth:Float):Float
