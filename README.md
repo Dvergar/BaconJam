@@ -1,7 +1,7 @@
 BaconJam
 ========
 
-Game done by Dvergar and npretto for BaconJam
+Game done by @Dvergar and @npretto for BaconJam
 
 Link of the game on the BaconJam website: https://bacongamejam.org/jams/bacongamejam-08/302/
 
