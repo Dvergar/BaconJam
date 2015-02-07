@@ -61,6 +61,7 @@ class BoxCollider extends Component
 		collides = false;
 		var oldCollisionBox = rectangle.clone();
 		rectangle.collisionTypes = new Array();
+		// rectangle.collisionType = null;
 
 		if(rectangle.collisionTypes.length > 10) throw "lel";
 
@@ -74,6 +75,11 @@ class BoxCollider extends Component
 					rectangle.collisionTypes.push(colliders.type);
 					if(colliders.type != WORLD)
 						rekt.collisionTypes.push(rectangle.type);
+
+					// if(rectangle.collisionType == null || rectangle.collisionType == WORLD)
+					// 	rectangle.collisionType = colliders.type;
+					// if(colliders.type != WORLD)
+					// 	rekt.collisionType = rectangle.type;
 
 					collides = true;
 					rectangle.y = oldCollisionBox.y;
@@ -89,6 +95,11 @@ class BoxCollider extends Component
 					rectangle.collisionTypes.push(colliders.type);
 					if(rekt.type != WORLD)
 						rekt.collisionTypes.push(rectangle.type);
+
+					// if(rectangle.collisionType == null || rectangle.collisionType == WORLD)
+					// 	rectangle.collisionType = colliders.type;
+					// if(colliders.type != WORLD)
+					// 	rekt.collisionType = rectangle.type;
 
 					collides = true;
 					rectangle.x = oldCollisionBox.x;

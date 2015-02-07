@@ -74,8 +74,8 @@ class Enemy extends Sprite
 	
 	override public function update(dt:Float) 
 	{
-		super.update(dt);
-		sinceLastAttack += dt;
+		// super.update(dt);
+		// sinceLastAttack += dt;
 		
 		// MOVE TOWARDS THE PLAYER
 		var direction = LuxeApp._game.player.pos.clone().subtract(pos).normalize();
@@ -102,7 +102,9 @@ class Enemy extends Sprite
 	
 	override function ondestroy() 
 	{
+		trace("destroy");
 		LuxeApp._game.enemyColliders.remove(collider.rectangle);
+		LuxeApp._game.mobsBatcher.remove(this.geometry);
 		super.ondestroy();
 	}
 	

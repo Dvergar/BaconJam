@@ -183,6 +183,7 @@ class CollisionRekt extends Rectangle
 {
     public var collisionTypes:Array<CollisionType> = new Array();
     public var type:CollisionType;
+    public var collisionType:CollisionType;
 
     public function new(type:CollisionType, _x:Float=0, _y:Float=0, _w:Float=0, _h:Float=0)
     {
@@ -254,11 +255,11 @@ class Main extends luxe.Game
                                                             BaconMap.TILESIZE,
                                                             BaconMap.TILESIZE));
 		
-		Luxe.timer.schedule(1, rockFall);
-		Luxe.timer.schedule(1, rockFall);
-		Luxe.timer.schedule(1, rockFall);
-		Luxe.timer.schedule(1, rockFall);
-		Luxe.timer.schedule(60, rockFall);
+		// Luxe.timer.schedule(1, rockFall);
+		// Luxe.timer.schedule(1, rockFall);
+		// Luxe.timer.schedule(1, rockFall);
+		// Luxe.timer.schedule(1, rockFall);
+		// Luxe.timer.schedule(60, rockFall);
 
         // UI BATCHER
         uiBatcher = new Batcher(Luxe.renderer, 'meh');
@@ -318,7 +319,7 @@ class Main extends luxe.Game
                             "pingpong":"false",
                             "loop": "true",
                             "speed": ' + Std.random(18) + '
-                        },
+                        }
                     }
                 ';
 
@@ -480,6 +481,6 @@ class Main extends luxe.Game
 		}while (map.collisionMap[x][y]);
 		new FallingRock((x+0.5)*BaconMap.TILESIZE, (y+0.5)*BaconMap.TILESIZE);
 		//player.hurt(10);
-		Luxe.timer.schedule(3+Math.random() * 3, rockFall);
+		// Luxe.timer.schedule(3+Math.random() * 3, rockFall);
 	}
 }

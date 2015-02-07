@@ -93,7 +93,7 @@ class ShootComponent extends Component
 		e.pos.subtract(direction.clone().normalize().multiplyScalar(1.5));
 
 		// SHAKE
-		Luxe.camera.shake(3, true);
+		// Luxe.camera.shake(3, true);
 
 		// AUDIO
 		Luxe.audio.play('boom');

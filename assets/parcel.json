@@ -11,7 +11,7 @@
         { "id" : "assets/powerup_crit.png" },
         { "id" : "assets/powerup_firerate.png" },
         { "id" : "assets/healthbar.png" },
-		{ "id" : "assets/eye.png" },
+		{ "id" : "assets/eye.png" }
     ],
     "fonts" : [
     ],
@@ -20,6 +20,6 @@
         { "id" : "assets/161862__antistatikk__balloon-bass-12.wav", "name" : "boom", "is_stream" : true },
         { "id" : "assets/bite-small.wav", "name" : "bite", "is_stream" : true },
         { "id" : "assets/bite-small2.wav", "name" : "bite2", "is_stream" : true },
-        { "id" : "assets/bite-small3.wav", "name" : "bite3", "is_stream" : true },
+        { "id" : "assets/bite-small3.wav", "name" : "bite3", "is_stream" : true }
     ]
 }

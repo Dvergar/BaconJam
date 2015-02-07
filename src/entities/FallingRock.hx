@@ -76,8 +76,7 @@ class FallingRock extends Sprite
 				spawnMob(posx, posy - 1);
 
 				// METEOR SHAKE
-				if(distance <500)
-					Luxe.camera.shake(8000 / distance, true);
+				// if(distance <500) Luxe.camera.shake(8000 / distance, true);
 			}
 			
 			//Actuate.tween(color, 0.5, { a:0 } ).onComplete(function() { destroy(); } ); //it doesn't work on web		 target	
